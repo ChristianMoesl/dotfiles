@@ -1,0 +1,12 @@
+[user]
+	name = Christian Mösl
+	mail = christian.moesl@live.at
+	signingkey = 00E80FCE30C2947A
+	email = christian.moesl@live.at
+[core]
+	editor = vim
+[commit]
+	gpgsign = true
+[gpg]
+	program = gpg
+	programm = gpg
