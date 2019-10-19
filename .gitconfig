@@ -1,12 +1,22 @@
 [user]
 	name = Christian Mösl
-	mail = christian.moesl@live.at
-	signingkey = 00E80FCE30C2947A
 	email = christian.moesl@live.at
+	signingkey = 00E80FCE30C2947A
 [core]
-	editor = vim
+	editor = nvim
 [commit]
 	gpgsign = true
 [gpg]
 	program = gpg
-	programm = gpg
+[diff]
+	tool = vimdiff
+[merge]
+	tool = vimdiff
+[difftool]
+	prompt = false
+[mergetool]
+	prompt = false
+[mergetool "vimdiff"]
+	path = nvim
+[difftool "vimdiff"]
+	path = nvim
