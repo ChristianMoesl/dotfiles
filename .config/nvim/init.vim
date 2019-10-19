@@ -1,24 +1,37 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'vimlab/split-term.vim'
-Plug 'morhetz/gruvbox'
+" Plug 'morhetz/gruvbox'
+Plug 'cormacrelf/vim-colors-github'
 Plug 'scrooloose/nerdtree'
 Plug 'vim-airline/vim-airline'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'airblade/vim-gitgutter'
 
 call plug#end()
 
-let g:deoplete#enable_at_startup = 1
+" configure colors
+colorscheme github
+let g:airline_theme = "github"
+
 let g:ctrlp_show_hidden = 1
 
 
-" neovim settings
+" neovim basic settings
 set number relativenumber
 set cursorline
-set smartindent
 set splitbelow
 set splitright
+
+" identation settings
+set smartindent
+set expandtab
+set shiftwidth=2
+set softtabstop=2
+set tabstop=2
+
+" autocmd FileType python setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 
 " Easier split navigation (omit C-W)
 nnoremap <C-J> <C-W><C-J>
@@ -26,7 +39,8 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-colorscheme gruvbox
+" map leader key
+map <Space> <leader>
 
 " coc settings
 " if hidden is not set, TextEdit might fail.
