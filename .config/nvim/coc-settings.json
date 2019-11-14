@@ -3,6 +3,11 @@
 		"kubernetes": "~/Emundo/rancher-ci-stack/test.yml"
 	},
 	"languageserver": {
+    "metals": {
+      "command": "metals-vim",
+      "rootPatterns": ["build.sbt"],
+      "filetypes": ["scala", "sbt"]
+    },
 		"ccls": {
 			"command": "ccls",
       			"filetypes": ["c", "cpp", "objc", "objcpp"],
