@@ -6,8 +6,11 @@ Plug 'cormacrelf/vim-colors-github'
 Plug 'scrooloose/nerdtree'
 Plug 'vim-airline/vim-airline'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'airblade/vim-gitgutter'
+
+" Plugins for programming languages
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'derekwyatt/vim-scala'
 
 call plug#end()
 
@@ -33,14 +36,36 @@ set tabstop=2
 
 " autocmd FileType python setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 
-" Easier split navigation (omit C-W)
+" Easier split navigation (omit C-W) in all modes
+" Normal Mode:
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+" Insert Mode:
+inoremap <C-J> <Esc><C-W><C-J>
+inoremap <C-K> <Esc><C-W><C-K>
+inoremap <C-L> <Esc><C-W><C-L>
+inoremap <C-H> <Esc><C-W><C-H>
+" Visual Mode:
+vnoremap <C-J> <Esc><C-W><C-J>
+vnoremap <C-K> <Esc><C-W><C-K>
+vnoremap <C-L> <Esc><C-W><C-L>
+vnoremap <C-H> <Esc><C-W><C-H>
+" Terminal Mode:
+tnoremap <C-J> <C-\><C-n><C-W><C-J>
+tnoremap <C-K> <C-\><C-n><C-W><C-K>
+tnoremap <C-L> <C-\><C-n><C-W><C-L>
+tnoremap <C-H> <C-\><C-n><C-W><C-H>
+
+
+" Fix shortcuts in terminal mode
+tnoremap <Esc> <C-\><C-n>
+tnoremap <C-Esc> <Esc>
 
 " map leader key
 map <Space> <leader>
+
 
 " coc settings
 " if hidden is not set, TextEdit might fail.
@@ -176,3 +201,7 @@ nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+
+" Configuration for vim-scala
+au BufRead,BufNewFile *.sbt set filetype=scala
