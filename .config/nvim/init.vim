@@ -1,12 +1,17 @@
+" =====================================================================================
+"                                 PLUGINS
+" =====================================================================================
+
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'vimlab/split-term.vim'
-" Plug 'morhetz/gruvbox'
-Plug 'cormacrelf/vim-colors-github'
+" Plug 'cormacrelf/vim-colors-github'
+Plug 'morhetz/gruvbox'
 Plug 'scrooloose/nerdtree'
 Plug 'vim-airline/vim-airline'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'airblade/vim-gitgutter'
+Plug 'scrooloose/nerdcommenter'
 
 " Plugins for programming languages
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -14,11 +19,16 @@ Plug 'derekwyatt/vim-scala'
 
 call plug#end()
 
-" configure colors
-colorscheme github
-let g:airline_theme = "github"
+" theme and color configuration
+" enable true colors
+set termguicolors
+let g:gruvbox_italic=1
+set background=dark
+colorscheme gruvbox
+
 
 let g:ctrlp_show_hidden = 1
+
 
 
 " neovim basic settings
@@ -33,6 +43,17 @@ set expandtab
 set shiftwidth=2
 set softtabstop=2
 set tabstop=2
+
+
+" =====================================================================================
+"                                KEYMAPPINGS
+" =====================================================================================
+
+
+" map leader key
+noremap <Space> <Nop>
+sunmap <Space>
+let mapleader = "\<Space>"
 
 " autocmd FileType python setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 
@@ -63,8 +84,6 @@ tnoremap <C-H> <C-\><C-n><C-W><C-H>
 tnoremap <Esc> <C-\><C-n>
 tnoremap <C-Esc> <Esc>
 
-" map leader key
-map <Space> <leader>
 
 
 " coc settings
@@ -104,7 +123,7 @@ function! s:check_back_space() abort
 endfunction
 
 " Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+inoremap <silent><expr> <leader><space> coc#refresh()
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
@@ -186,21 +205,21 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Using CocList
 " Show all diagnostics
-nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+nnoremap <silent> <leader>a  :<C-u>CocList diagnostics<cr>
 " Manage extensions
-nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+nnoremap <silent> <leader>e  :<C-u>CocList extensions<cr>
 " Show commands
-nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+nnoremap <silent> <leader>l  :<C-u>CocList commands<cr>
 " Find symbol of current document
-nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+nnoremap <silent> <leader>o  :<C-u>CocList outline<cr>
 " Search workspace symbols
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+nnoremap <silent> <leader>s  :<C-u>CocList -I symbols<cr>
 " Do default action for next item.
-nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+nnoremap <silent> <leader>j  :<C-u>CocNext<CR>
 " Do default action for previous item.
-nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+nnoremap <silent> <leader>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
-nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+nnoremap <silent> <leader>p  :<C-u>CocListResume<CR>
 
 
 " Configuration for vim-scala
