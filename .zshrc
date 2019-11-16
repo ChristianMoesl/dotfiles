@@ -75,6 +75,7 @@ plugins=(
   web-search
   zsh-autosuggestions
   zsh-syntax-highlighting
+  fzf
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -92,6 +93,9 @@ if [[ -n $SSH_CONNECTION ]]; then
 else
   export EDITOR='code'
 fi
+
+# speedup fzf with ripgrep 
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
