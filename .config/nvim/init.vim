@@ -9,9 +9,11 @@ Plug 'vimlab/split-term.vim'
 Plug 'morhetz/gruvbox'
 Plug 'scrooloose/nerdtree'
 Plug 'vim-airline/vim-airline'
-Plug 'ctrlpvim/ctrlp.vim'
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-surround'
 
 " Plugins for programming languages
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -52,8 +54,8 @@ set tabstop=2
 
 " map leader key
 noremap <Space> <Nop>
-sunmap <Space>
 let mapleader = "\<Space>"
+sunmap <Space>
 
 " autocmd FileType python setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 
@@ -85,8 +87,52 @@ tnoremap <Esc> <C-\><C-n>
 tnoremap <C-Esc> <Esc>
 
 
+" =====================================================================================
+"                                FZF Plugin
+" =====================================================================================
+nnoremap <silent> <c-p>  :Files<cr>
 
-" coc settings
+" This is the default extra key bindings
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+" Default fzf layout
+" - down / up / left / right
+let g:fzf_layout = { 'down': '~40%' }
+
+" In Neovim, you can set up fzf window using a Vim command
+let g:fzf_layout = { 'window': 'enew' }
+let g:fzf_layout = { 'window': '-tabnew' }
+let g:fzf_layout = { 'window': '10new' }
+
+" Customize fzf colors to match your color scheme
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+" Enable per-command history.
+" CTRL-N and CTRL-P will be automatically bound to next-history and
+" previous-history instead of down and up. If you don't like the change,
+" explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
+let g:fzf_history_dir = '~/.local/share/fzf-history'
+
+
+" =====================================================================================
+"                                    COC 
+" =====================================================================================
 " if hidden is not set, TextEdit might fail.
 au BufRead,BufNewFile *.tsx set filetype=typescript.tsx
 au BufRead,BufNewFile *.jsx set filetype=javascript.jsx
@@ -123,7 +169,7 @@ function! s:check_back_space() abort
 endfunction
 
 " Use <c-space> to trigger completion.
-inoremap <silent><expr> <leader><space> coc#refresh()
+inoremap <silent><expr> <a-tab> coc#refresh()
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
@@ -140,6 +186,7 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+nmap <silent> <Leader>e <Plug>(coc-diagnostic-prev-error)
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -207,7 +254,7 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 " Show all diagnostics
 nnoremap <silent> <leader>a  :<C-u>CocList diagnostics<cr>
 " Manage extensions
-nnoremap <silent> <leader>e  :<C-u>CocList extensions<cr>
+nnoremap <silent> <leader>ve  :<C-u>CocList extensions<cr>
 " Show commands
 nnoremap <silent> <leader>l  :<C-u>CocList commands<cr>
 " Find symbol of current document
