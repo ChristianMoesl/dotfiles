@@ -4,40 +4,46 @@
 
 call plug#begin('~/.local/share/nvim/plugged')
 
-Plug 'vimlab/split-term.vim'
-" Plug 'cormacrelf/vim-colors-github'
+" Themes
+Plug 'cormacrelf/vim-colors-github'
 Plug 'morhetz/gruvbox'
-Plug 'scrooloose/nerdtree'
-Plug 'vim-airline/vim-airline'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'romainl/Apprentice'
+Plug 'jacoborus/tender.vim'
+
+" TUI Plugins
+Plug 'vim-airline/vim-airline'      " status line (modes)
+Plug 'psliwka/vim-smoothie'         " smooth scrolling
+Plug 'scrooloose/nerdtree'          " file browser
+Plug 'Xuyuanp/nerdtree-git-plugin'  " git status in file browser
+
+" Fuzzy file finder
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'airblade/vim-gitgutter'
-Plug 'scrooloose/nerdcommenter'
-Plug 'tpope/vim-surround'
+
+" Better editing
+Plug 'scrooloose/nerdcommenter'     " comment blocks
+Plug 'airblade/vim-gitgutter'       " display modified lines
+Plug 'tpope/vim-surround'           " change surrounding chars (e.g. ')
 
 " Plugins for programming languages
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'derekwyatt/vim-scala'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}   " language protocol client
+Plug 'derekwyatt/vim-scala'                       " server for Scala
+Plug 'leafgarland/typescript-vim'                 " server for typescript
+Plug 'peitalin/vim-jsx-typescript'                " syntax highlighter for ts/tsx
 
 call plug#end()
 
-" theme and color configuration
-" enable true colors
-set termguicolors
-let g:gruvbox_italic=1
-set background=dark
-colorscheme gruvbox
-
-
-let g:ctrlp_show_hidden = 1
-
-
+" =====================================================================================
+"                                  BASIC
+" =====================================================================================
 
 " neovim basic settings
 set number relativenumber
 set cursorline
 set splitbelow
 set splitright
+set mouse=a
 
 " identation settings
 set smartindent
@@ -48,16 +54,33 @@ set tabstop=2
 
 
 " =====================================================================================
-"                                KEYMAPPINGS
+"                                  THEME
 " =====================================================================================
 
+" theme and color configuration
+" enable true colors
+set termguicolors
+syntax enable
+set background=light
+colorscheme github
+" let g:gruvbox_italic=1
+
+let g:airline_theme="github"
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#branch#enabled = 1
+
+" =====================================================================================
+"                                KEYMAPPINGS
+" =====================================================================================
 
 " map leader key
 noremap <Space> <Nop>
 let mapleader = "\<Space>"
 sunmap <Space>
 
-" autocmd FileType python setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
+" shortcut to open terminal in split
+nnoremap <leader>t :vsplit<CR>:terminal<CR>
+vnoremap <leader>t :vsplit<CR>:terminal<CR>
 
 " Easier split navigation (omit C-W) in all modes
 " Normal Mode:
@@ -85,6 +108,13 @@ tnoremap <C-H> <C-\><C-n><C-W><C-H>
 " Fix shortcuts in terminal mode
 tnoremap <Esc> <C-\><C-n>
 tnoremap <C-Esc> <Esc>
+
+
+" =====================================================================================
+"                                 Nerdtree
+" =====================================================================================
+noremap <leader>n :NERDTreeToggle<CR>
+
 
 
 " =====================================================================================
@@ -181,12 +211,15 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
+" Use `[e` and `]e` to navigate errors
+nmap <silent> [e <Plug>(coc-diagnostic-prev-error)
+nmap <silent> ]e <Plug>(coc-diagnostic-next-error)
+
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-nmap <silent> <Leader>e <Plug>(coc-diagnostic-prev-error)
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
