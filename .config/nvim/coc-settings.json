@@ -1,4 +1,5 @@
 {
+  "coc.preferences.formatOnSaveFiletypes": ["typescript", "typescript.tsx", "Markdown"],
 	"yaml.schemas": {
 		"kubernetes": "~/Emundo/rancher-ci-stack/test.yml"
 	},

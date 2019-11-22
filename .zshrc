@@ -89,9 +89,9 @@ export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='code'
+  export EDITOR='nvim'
 else
-  export EDITOR='code'
+  export EDITOR='nvim'
 fi
 
 # speedup fzf with ripgrep 
@@ -124,6 +124,8 @@ eval "$(rbenv init -)"
 export GPG_TTY=$(tty)
 export TERM=screen-256color
 
+se() { fzf | xargs $EDITOR ; }
+
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias kcref='kubectl create -f'
 
@@ -136,3 +138,5 @@ if [ /usr/local/bin/kubectl ]; then source <(kubectl completion zsh); fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+
+bindkey -v
