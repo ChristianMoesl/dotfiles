@@ -32,6 +32,9 @@ Plug 'derekwyatt/vim-scala'                       " server for Scala
 Plug 'leafgarland/typescript-vim'                 " server for typescript
 Plug 'peitalin/vim-jsx-typescript'                " syntax highlighter for ts/tsx
 
+" Access nvim from Firefox
+Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+
 call plug#end()
 
 " =====================================================================================
@@ -45,6 +48,12 @@ set splitbelow
 set splitright
 set mouse=a
 
+" disable arrow keys
+noremap <Right> <Nop>
+noremap <Left> <Nop>
+noremap <Up> <Nop>
+noremap <Down> <Nop>
+
 " identation settings
 set smartindent
 set expandtab
@@ -52,6 +61,12 @@ set shiftwidth=2
 set softtabstop=2
 set tabstop=2
 
+" buffer settings
+set hidden
+
+nnoremap <leader>[ :bp<CR>
+nnoremap <leader>] :bn<CR>
+nnoremap <leader>d :bp\|bd #<CR>
 
 " =====================================================================================
 "                                  THEME
@@ -72,11 +87,6 @@ let g:airline#extensions#branch#enabled = 1
 " =====================================================================================
 "                                KEYMAPPINGS
 " =====================================================================================
-
-" map leader key
-noremap <Space> <Nop>
-let mapleader = "\<Space>"
-sunmap <Space>
 
 " shortcut to open terminal in split
 nnoremap <leader>t :vsplit<CR>:terminal<CR>
@@ -164,10 +174,6 @@ let g:fzf_history_dir = '~/.local/share/fzf-history'
 "                                    COC 
 " =====================================================================================
 " if hidden is not set, TextEdit might fail.
-au BufRead,BufNewFile *.tsx set filetype=typescript.tsx
-au BufRead,BufNewFile *.jsx set filetype=javascript.jsx
-
-set hidden
 
 " Some servers have issues with backup files, see #649
 set nobackup
@@ -199,7 +205,7 @@ function! s:check_back_space() abort
 endfunction
 
 " Use <c-space> to trigger completion.
-inoremap <silent><expr> <a-tab> coc#refresh()
+inoremap <silent><expr> <c-space> coc#refresh()
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
@@ -287,7 +293,7 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 " Show all diagnostics
 nnoremap <silent> <leader>a  :<C-u>CocList diagnostics<cr>
 " Manage extensions
-nnoremap <silent> <leader>ve  :<C-u>CocList extensions<cr>
+nnoremap <silent> <leader>ve :<C-u>CocList extensions<cr>
 " Show commands
 nnoremap <silent> <leader>l  :<C-u>CocList commands<cr>
 " Find symbol of current document
@@ -302,5 +308,7 @@ nnoremap <silent> <leader>k  :<C-u>CocPrev<CR>
 nnoremap <silent> <leader>p  :<C-u>CocListResume<CR>
 
 
-" Configuration for vim-scala
+" Configure filetype detection
 au BufRead,BufNewFile *.sbt set filetype=scala
+au BufRead,BufNewFile *.tsx set filetype=typescript.tsx
+au BufRead,BufNewFile *.jsx set filetype=javascript.jsx
