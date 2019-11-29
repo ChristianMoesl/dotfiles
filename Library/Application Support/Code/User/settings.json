@@ -1,0 +1,18 @@
+{
+    "workbench.startupEditor": "newUntitledFile",
+    "window.zoomLevel": 0,
+    "latex-workshop.view.pdf.viewer": "tab",
+    "explorer.confirmDelete": false,
+    "python.pythonPath": "/usr/local/opt/python/bin/python3.7",
+    "editor.tabSize": 2,
+    "git.autofetch": true,
+    "latex-workshop.message.update.show": false,
+    "files.trimTrailingWhitespace": true,
+    "editor.renderWhitespace": "boundary",
+    "git.confirmSync": false,
+    "typescript.updateImportsOnFileMove.enabled": "never",
+    "workbench.colorTheme": "Github",
+    "zenMode.hideLineNumbers": false,
+    "editor.lineNumbers": "relative",
+    "editor.autoClosingBrackets": "never"
+}
