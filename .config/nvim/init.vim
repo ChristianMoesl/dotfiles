@@ -16,6 +16,7 @@ Plug 'vim-airline/vim-airline'      " status line (modes)
 Plug 'psliwka/vim-smoothie'         " smooth scrolling
 Plug 'scrooloose/nerdtree'          " file browser
 Plug 'Xuyuanp/nerdtree-git-plugin'  " git status in file browser
+Plug 'tpope/vim-fugitive'           " use git in vim
 
 " Fuzzy file finder
 Plug '/usr/local/opt/fzf'
@@ -25,15 +26,14 @@ Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdcommenter'     " comment blocks
 Plug 'airblade/vim-gitgutter'       " display modified lines
 Plug 'tpope/vim-surround'           " change surrounding chars (e.g. ')
+Plug 'tpope/vim-unimpaired'         " move lines and much more
+Plug 'tpope/vim-repeat'             " . command for unimpaired/surround
 
 " Plugins for programming languages
 Plug 'neoclide/coc.nvim', {'branch': 'release'}   " language protocol client
 Plug 'derekwyatt/vim-scala'                       " server for Scala
 Plug 'leafgarland/typescript-vim'                 " server for typescript
 Plug 'peitalin/vim-jsx-typescript'                " syntax highlighter for ts/tsx
-
-" Access nvim from Firefox
-Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 
 call plug#end()
 
@@ -46,7 +46,6 @@ set number relativenumber
 set cursorline
 set splitbelow
 set splitright
-set mouse=a
 
 " disable arrow keys
 noremap <Right> <Nop>
@@ -64,8 +63,6 @@ set tabstop=2
 " buffer settings
 set hidden
 
-nnoremap <leader>[ :bp<CR>
-nnoremap <leader>] :bn<CR>
 nnoremap <leader>d :bp\|bd #<CR>
 
 " =====================================================================================
@@ -119,6 +116,10 @@ tnoremap <C-H> <C-\><C-n><C-W><C-H>
 tnoremap <Esc> <C-\><C-n>
 tnoremap <C-Esc> <Esc>
 
+nmap [l <Plug>unimpairedMoveUp
+nmap ]l <Plug>unimpairedMoveDown
+xmap [l <Plug>unimpairedMoveSelectionUp
+xmap ]l <Plug>unimpairedMoveSelectionDown
 
 " =====================================================================================
 "                                 Nerdtree
