@@ -63,7 +63,7 @@ set tabstop=2
 " buffer settings
 set hidden
 
-nnoremap <leader>d :bp\|bd #<CR>
+nnoremap <leader>d :bp\|bd! #<CR>
 
 " =====================================================================================
 "                                  THEME
