@@ -10,7 +10,6 @@ neovim
 node@12
 openssl
 pidof
-pinentry
 pinentry-mac
 python
 readline
@@ -19,4 +18,4 @@ scala
 telnet
 tldr
 tree
-wgett
+wget
