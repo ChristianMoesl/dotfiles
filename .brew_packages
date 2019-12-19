@@ -12,7 +12,9 @@ openssl
 pidof
 pinentry-mac
 python
+rbenv
 readline
+ruby
 sbt
 scala
 telnet
