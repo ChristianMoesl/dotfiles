@@ -128,6 +128,8 @@ se() { fzf | xargs $EDITOR ; }
 
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias kcref='kubectl create -f'
+alias vim=nvim
+alias vi=nvim
 
 # setup autocomplete
 autoload -Uz compinit
