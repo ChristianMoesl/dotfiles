@@ -5,6 +5,7 @@ gcc
 gnupg
 helm@2
 htop
+imagemagick
 kubernetes-cli
 neovim
 node@12
@@ -14,6 +15,7 @@ pinentry-mac
 python
 rbenv
 readline
+ripgrep
 ruby
 sbt
 scala
