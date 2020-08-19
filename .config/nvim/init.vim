@@ -114,7 +114,7 @@ tnoremap <C-H> <C-\><C-n><C-W><C-H>
 
 " Fix shortcuts in terminal mode
 tnoremap <Esc> <C-\><C-n>
-tnoremap <C-Esc> <Esc>
+tnoremap <leader><Esc> <Esc>
 
 nmap [l <Plug>unimpairedMoveUp
 nmap ]l <Plug>unimpairedMoveDown

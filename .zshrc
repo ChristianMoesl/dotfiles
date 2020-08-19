@@ -116,6 +116,8 @@ export PATH="/usr/local/opt/ruby/bin:$PATH"
 export PATH="$HOME/.gem/ruby/2.6.0/bin:$PATH"
 export PATH="~/Library/Python/3.7/bin:$PATH"
 export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 export JAVA_HOME="`/usr/libexec/java_home -v 1.8`"
 
@@ -140,3 +142,4 @@ if [ /usr/local/bin/kubectl ]; then source <(kubectl completion zsh); fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+export PATH="/usr/local/opt/llvm/bin:$PATH"
