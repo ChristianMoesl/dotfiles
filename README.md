@@ -10,7 +10,7 @@ stow.
 ```zsh
 $ git clone https://github.com/ChristianMoesl/dotfiles
 $ cd dotfiles
-$ stow -v -R -t ~ brew git gnupg nvim rbenv ssh zsh  # folder of configuration files to be used
+$ stow -v -R -t ~ brew git gnupg iterm2 nvim rbenv ssh zsh  
 ```
 
 License
