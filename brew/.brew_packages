@@ -12,7 +12,6 @@ kubernetes-cli
 neovim
 node@12
 openssl
-pdfpc
 pidof
 pinentry-mac
 python
@@ -20,9 +19,9 @@ rancher-cli
 rbenv
 readline
 ripgrep
-ruby
 sbt
 scala
+stow
 telnet
 tldr
 tree
