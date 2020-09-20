@@ -56,11 +56,47 @@ set shiftwidth=2
 set softtabstop=2
 set tabstop=2
 
+" =====================================================================================
+"                                  BUFFER
+" =====================================================================================
+
 " buffer settings
 " if hidden is not set, TextEdit might fail.
 set hidden
 
+" delete buffer with a shortcut
 nnoremap <leader>d :bp\|bd! #<CR>
+
+" navigate to buffers of same type only and 
+" ignore this command in NERDTree buffers
+function! BnToSameType()
+  if bufname('%') =~# "^NERD_tree_"
+    return
+  endif
+
+  let start_buffer = bufnr('%')
+  let prev_buftype = &buftype
+  bn
+  while !(&buftype ==# prev_buftype) && bufnr('%') != start_buffer
+    bn
+  endwhile
+endfunction
+
+function! BpToSameType()
+  if bufname('%') =~# "^NERD_tree_"
+    return
+  endif
+
+  let start_buffer = bufnr('%')
+  let prev_buftype = &buftype
+  bp 
+  while !(&buftype ==# prev_buftype) && bufnr('%') != start_buffer
+    bp
+  endwhile
+endfunction
+
+nnoremap <silent> ]b :call BnToSameType()<CR>
+nnoremap <silent> [b :call BpToSameType()<CR>
 
 " =====================================================================================
 "                                  THEME
@@ -75,8 +111,12 @@ colorscheme github
 " let g:gruvbox_italic=1
 
 let g:airline_theme="github"
-let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+
+" display buffer names without filepath for unique names
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+let g:airline#extensions#tabline#ignore_bufadd_pat = 'defx|gundo|nerd_tree|startify|tagbar|undotree|vimfiler'
 
 " =====================================================================================
 "                                KEYMAPPINGS
@@ -138,7 +178,9 @@ nmap <silent> <leader>tv :TestVisit<CR>
 " =====================================================================================
 noremap <leader>n :NERDTreeToggle<CR>
 
-
+let g:NERDTreeShowHidden = 1
+let g:NERDTreeAutoDeleteBuffer = 1
+let g:NERDTreeChDirMode = 3
 
 " =====================================================================================
 "                                FZF Plugin
