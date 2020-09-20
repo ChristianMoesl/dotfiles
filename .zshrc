@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/cm/.oh-my-zsh"
+export ZSH="/Users/chris/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -73,6 +73,7 @@ plugins=(
   docker
   kubectl
   web-search
+  osx
   zsh-autosuggestions
   zsh-syntax-highlighting
   fzf
@@ -111,35 +112,32 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 #
 export NODE_PATH=/usr/local/lib/node_modules
 
-export PATH="/Users/cm/Workspace/wasmtime/target/release:$PATH"
-export PATH="/usr/local/opt/ruby/bin:$PATH"
-export PATH="$HOME/.gem/ruby/2.6.0/bin:$PATH"
-export PATH="~/Library/Python/3.7/bin:$PATH"
-export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
-
-export JAVA_HOME="`/usr/libexec/java_home -v 1.8`"
+export PATH="/usr/local/opt/llvm/bin:$PATH"
+export PATH="/usr/local/opt/python@3.8/libexec/bin:$PATH"
 
 eval "$(rbenv init -)"
 
 export GPG_TTY=$(tty)
 export TERM=screen-256color
 
+# shortcut to fuzzy find file and edit it
 se() { fzf | xargs $EDITOR ; }
 
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-alias kcref='kubectl create -f'
-alias vim=nvim
-alias vi=nvim
 
 # setup autocomplete
 autoload -Uz compinit
 compinit
 
+# Kubernetes setup
 if [ /usr/local/bin/kubectl ]; then source <(kubectl completion zsh); fi
-
+alias kcref='kubectl create -f'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
-export PATH="/usr/local/opt/llvm/bin:$PATH"
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/chris/.sdkman"
+[[ -s "/Users/chris/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/chris/.sdkman/bin/sdkman-init.sh"
