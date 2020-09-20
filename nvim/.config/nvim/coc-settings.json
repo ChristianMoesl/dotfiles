@@ -2,11 +2,9 @@
   "coc.preferences.formatOnSaveFiletypes": [
     "typescript",
     "typescript.tsx",
-    "Markdown"
+    "Markdown",
+    "rust"
   ],
-  "yaml.schemas": {
-    "kubernetes": "~/Emundo/rancher-ci-stack/test.yml"
-  },
   "languageserver": {
     "metals": {
       "command": "metals-vim",
