@@ -28,6 +28,7 @@ Plug 'airblade/vim-gitgutter'       " display modified lines
 Plug 'tpope/vim-surround'           " change surrounding chars (e.g. ')
 Plug 'tpope/vim-unimpaired'         " move lines and much more
 Plug 'tpope/vim-repeat'             " . command for unimpaired/surround
+Plug '907th/vim-auto-save'          " automatically safe files while editing
 
 " Plugins for programming languages
 Plug 'neoclide/coc.nvim', {'branch': 'release'}   " language protocol client
@@ -97,6 +98,9 @@ endfunction
 
 nnoremap <silent> ]b :call BnToSameType()<CR>
 nnoremap <silent> [b :call BpToSameType()<CR>
+
+let g:auto_save = 1  " enable AutoSave on Vim startup
+let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
 
 " =====================================================================================
 "                                  THEME
