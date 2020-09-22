@@ -125,6 +125,8 @@ export TERM=screen-256color
 # shortcut to fuzzy find file and edit it
 se() { fzf | xargs $EDITOR ; }
 
+alias gcob='git branch | fzf | xargs git checkout'
+
 # setup autocomplete
 autoload -Uz compinit
 compinit
@@ -132,6 +134,8 @@ compinit
 # Kubernetes setup
 if [ /usr/local/bin/kubectl ]; then source <(kubectl completion zsh); fi
 alias kcref='kubectl create -f'
+
+if [ /usr/local/bin/gh ]; then source <(gh completion -s zsh); fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
