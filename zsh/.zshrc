@@ -165,3 +165,6 @@ if [ /usr/local/bin/gh ]; then source <(gh completion -s zsh); fi
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/Users/chris/.sdkman"
 [[ -s "/Users/chris/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/chris/.sdkman/bin/sdkman-init.sh"
+
+# krew path
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"

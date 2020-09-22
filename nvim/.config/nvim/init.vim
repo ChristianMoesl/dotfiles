@@ -41,7 +41,9 @@ Plug 'vim-test/vim-test'                          " run tests with vim
 Plug 'derekwyatt/vim-scala'                       " server for Scala
 Plug 'leafgarland/typescript-vim'                 " server for typescript
 Plug 'peitalin/vim-jsx-typescript'                " syntax highlighter for ts/tsx
+Plug 'hashivim/vim-terraform'                     " syntax highlighter for Terraform
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  } " markdown preview in browser
+Plug 'tsandall/vim-rego'
 
 call plug#end()
 
@@ -622,3 +624,5 @@ vnoremap <silent> <leader> :<c-u>WhichKeyVisual '\'<CR>
 set timeoutlen=500
 
 call which_key#register('\', 'g:which_key_map')
+
+au BufRead,BufNewFile *.tf set filetype=terraform

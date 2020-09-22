@@ -4,9 +4,19 @@
     "typescript",
     "typescript.tsx",
     "Markdown",
-    "rust"
+    "rust",
+    "terraform"
   ],
   "languageserver": {
+    "terraform": {
+      "command": "terraform-ls",
+			"args": ["serve"],
+			"filetypes": [
+				"terraform",
+				"tf"
+			],
+      "initializationOptions": {}
+    },
     "metals": {
       "command": "metals-vim",
       "rootPatterns": [

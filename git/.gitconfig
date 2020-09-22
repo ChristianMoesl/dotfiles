@@ -1,8 +1,7 @@
 [user]
 	name = Christian Mösl
-	email = christian.moesl@live.at
-	signingkey = 34C020723C521F4A! 
-  # for university: signingkey = 71F860C6B8FA1C91\! 
+	email = christian.moesl@e-mundo.de
+	signingkey = 88D26A2DA47C2BFE
 [core]
 	editor = nvim
 [commit]

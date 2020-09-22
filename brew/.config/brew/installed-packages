@@ -5,11 +5,9 @@ fzf
 gcc
 gh
 gnupg
-gnuplot
-graphviz
 helm
 htop
-imagemagick
+jq
 kubernetes-cli
 llvm
 neovim
@@ -22,10 +20,10 @@ rancher-cli
 rbenv
 readline
 ripgrep
-sbt
-scala
 stow
 telnet
+terraform
+terraform-ls
 tldr
 tree
 wget
