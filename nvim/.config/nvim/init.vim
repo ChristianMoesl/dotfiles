@@ -30,6 +30,10 @@ Plug 'tpope/vim-unimpaired'         " move lines and much more
 Plug 'tpope/vim-repeat'             " . command for unimpaired/surround
 Plug '907th/vim-auto-save'          " automatically safe files while editing
 
+" Session management
+Plug 'tpope/vim-obsession'
+Plug 'dhruvasagar/vim-prosession'
+
 " Plugins for programming languages
 Plug 'neoclide/coc.nvim', {'branch': 'release'}   " language protocol client
 Plug 'vim-test/vim-test'                          " run tests with vim
