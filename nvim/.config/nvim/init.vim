@@ -10,6 +10,7 @@ Plug 'morhetz/gruvbox'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'romainl/Apprentice'
 Plug 'jacoborus/tender.vim'
+Plug 'arcticicestudio/nord-vim'
 
 " TUI Plugins
 Plug 'vim-airline/vim-airline'      " status line (modes)
@@ -111,20 +112,22 @@ let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
 " =====================================================================================
 
 " theme and color configuration
-" enable true colors
-set termguicolors
-syntax enable
-set background=light
-colorscheme github
 " let g:gruvbox_italic=1
+let g:nord_uniform_diff_background = 1
 
-let g:airline_theme="github"
+" let g:airline_theme="github"
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 
 " display buffer names without filepath for unique names
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline#extensions#tabline#ignore_bufadd_pat = 'defx|gundo|nerd_tree|startify|tagbar|undotree|vimfiler'
+
+" enable true colors
+set termguicolors
+syntax enable
+set background=light
+colorscheme nord
 
 " =====================================================================================
 "                                KEYMAPPINGS
