@@ -18,6 +18,7 @@ Plug 'psliwka/vim-smoothie'         " smooth scrolling
 Plug 'scrooloose/nerdtree'          " file browser
 Plug 'Xuyuanp/nerdtree-git-plugin'  " git status in file browser
 Plug 'tpope/vim-fugitive'           " use git in vim
+Plug 'airblade/vim-gitgutter'       " display modified lines
 
 " Fuzzy file finder
 Plug '/usr/local/opt/fzf'
@@ -25,7 +26,6 @@ Plug 'junegunn/fzf.vim'
 
 " Better editing
 Plug 'scrooloose/nerdcommenter'     " comment blocks
-Plug 'airblade/vim-gitgutter'       " display modified lines
 Plug 'tpope/vim-surround'           " change surrounding chars (e.g. ')
 Plug 'tpope/vim-unimpaired'         " move lines and much more
 Plug 'tpope/vim-repeat'             " . command for unimpaired/surround
@@ -104,8 +104,6 @@ endfunction
 nnoremap <silent> ]b :call BnToSameType()<CR>
 nnoremap <silent> [b :call BpToSameType()<CR>
 
-let g:auto_save = 1  " enable AutoSave on Vim startup
-let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
 
 " =====================================================================================
 "                                  THEME
@@ -169,14 +167,23 @@ nnoremap <Right> :vertical resize -2<CR>
 tnoremap <Esc> <C-\><C-n>
 tnoremap <leader><Esc> <Esc>
 
+" Remove highlight of search when pressing ESC
+nnoremap <silent> <esc> :noh<return><esc>
+
+
+" =====================================================================================
+"                                    Test
+" =====================================================================================
+" configure vim-unimpaired
 nmap [l <Plug>unimpairedMoveUp
 nmap ]l <Plug>unimpairedMoveDown
 xmap [l <Plug>unimpairedMoveSelectionUp
 xmap ]l <Plug>unimpairedMoveSelectionDown
 
-" Remove highlight of search when pressing ESC
-nnoremap <esc> :noh<return><esc>
 
+" =====================================================================================
+"                                    Test
+" =====================================================================================
 " Map shortcuts to run tests with vim-test
 nmap <silent> <leader>tn :TestNearest<CR>
 nmap <silent> <leader>tf :TestFile<CR>
@@ -184,14 +191,28 @@ nmap <silent> <leader>ts :TestSuite<CR>
 nmap <silent> <leader>tl :TestLast<CR>
 nmap <silent> <leader>tv :TestVisit<CR>
 
+
+" =====================================================================================
+"                                 Auto Save
+" =====================================================================================
+let g:auto_save = 0  " enable AutoSave on Vim startup
+let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
+
+
 " =====================================================================================
 "                                 Nerdtree
 " =====================================================================================
 noremap <leader>n :NERDTreeToggle<CR>
 
+" disable netrw
+let g:loaded_netrw = 0
+let g:loaded_netrwPlugin = 1
+
+let g:NERDTreeHijackNetrw=0
 let g:NERDTreeShowHidden = 1
 let g:NERDTreeAutoDeleteBuffer = 1
-let g:NERDTreeChDirMode = 3
+let g:NERDTreeChDirMode = 3 
+
 
 " =====================================================================================
 "                                FZF Plugin
@@ -234,6 +255,18 @@ let g:fzf_colors =
 " previous-history instead of down and up. If you don't like the change,
 " explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
 let g:fzf_history_dir = '~/.local/share/fzf-history'
+
+
+" Command to checkout a Git branch with fuzzy search
+func! s:GitCheckout(branch)
+  execute '!git checkout "' . trim(escape(a:branch, '%#')) . '"'
+endfunc
+
+func! GitCheckoutFuzzy()
+  call fzf#run(fzf#wrap({'source': 'git branch','sink': function('s:GitCheckout'), 'options': '+m'}))
+endfunc
+
+nnoremap <silent> <leader>gcob :.call GitCheckoutFuzzy()<CR>
 
 
 " =====================================================================================
