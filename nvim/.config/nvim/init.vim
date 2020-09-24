@@ -172,7 +172,7 @@ nnoremap <silent> <esc> :noh<return><esc>
 
 
 " =====================================================================================
-"                                    Test
+"                                 Unimpaired
 " =====================================================================================
 " configure vim-unimpaired
 nmap [l <Plug>unimpairedMoveUp
@@ -257,16 +257,38 @@ let g:fzf_colors =
 let g:fzf_history_dir = '~/.local/share/fzf-history'
 
 
+" =====================================================================================
+"                                 Git/Fugitive 
+" =====================================================================================
 " Command to checkout a Git branch with fuzzy search
-func! s:GitCheckout(branch)
-  execute '!git checkout "' . trim(escape(a:branch, '%#')) . '"'
-endfunc
+function! s:ExecForBranch(command, branch)
+  let full_command = a:command . ' "' . trim(substitute(escape(a:branch, '%#'), '*', '', 'g')) . '"'
+  echo full_command
+  execute full_command
+endfunction
 
-func! GitCheckoutFuzzy()
-  call fzf#run(fzf#wrap({'source': 'git branch','sink': function('s:GitCheckout'), 'options': '+m'}))
-endfunc
+function! ExecForBranchFuzzy(command)
+  echo a:command
+  call fzf#run(fzf#wrap({'source': 'git branch','sink': {branch -> s:ExecForBranch(a:command, branch)}}))
+endfunction
 
-nnoremap <silent> <leader>gcob :.call GitCheckoutFuzzy()<CR>
+" fast Git shortcuts
+nnoremap <leader>gw :Gwrite<CR>
+nnoremap <leader>gr :Gread<CR>
+nnoremap <leader>gc :Git commit<CR>
+nnoremap <leader>gca :Git commit --amend<CR>
+nnoremap <leader>gl :Git log<CR>
+nnoremap <leader>gd :Git diff<CR>
+nnoremap <leader>gb :Git blame<CR>
+nnoremap <leader>gd :Gdiffsplit<CR>
+nnoremap <leader>gp :Git push<CR>
+nnoremap <leader>gpf :Git push --force-with-lease<CR>
+nnoremap <leader>gst :Git status<CR>
+nnoremap <silent> <leader>gsw :.call ExecForBranchFuzzy('Git switch')<CR>
+nnoremap <silent> <leader>grbi :.call ExecForBranchFuzzy('Git rebase -i')<CR>
+nnoremap <leader>grbm :Git rebase -i origin/master<CR>
+nnoremap <leader>grbc :Git rebase --continue<CR>
+nnoremap <leader>grba :Git rebase --abort<CR>
 
 
 " =====================================================================================
