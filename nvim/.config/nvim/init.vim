@@ -17,12 +17,13 @@ Plug 'vim-airline/vim-airline'      " status line (modes)
 Plug 'psliwka/vim-smoothie'         " smooth scrolling
 Plug 'scrooloose/nerdtree'          " file browser
 Plug 'Xuyuanp/nerdtree-git-plugin'  " git status in file browser
-Plug 'tpope/vim-fugitive'           " use git in vim
-Plug 'airblade/vim-gitgutter'       " display modified lines
+
+" Git Plugins
+Plug 'tpope/vim-fugitive'           " git baseline plugin
+Plug 'jreybert/vimagit'             " diff over all changes
 
 " Fuzzy file finder
 Plug '/usr/local/opt/fzf'
-Plug 'junegunn/fzf.vim'
 
 " Better editing
 Plug 'scrooloose/nerdcommenter'     " comment blocks
@@ -217,48 +218,32 @@ let g:NERDTreeChDirMode = 3
 " =====================================================================================
 "                                FZF Plugin
 " =====================================================================================
-nnoremap <silent> <c-p>  :Files<cr>
+nmap <Leader>f [fzf-p]
+xmap <Leader>f [fzf-p]
 
-" This is the default extra key bindings
-let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit' }
+nnoremap <silent> [fzf-p]p     :<C-u>CocCommand fzf-preview.FromResources project_mru git<CR>
+nnoremap <silent> <C-p>        :<C-u>CocCommand fzf-preview.FromResources project_mru git<CR>
+nnoremap <silent> [fzf-p]gs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
+nnoremap <silent> [fzf-p]ga    :<C-u>CocCommand fzf-preview.GitActions<CR>
+nnoremap <silent> [fzf-p]b     :<C-u>CocCommand fzf-preview.Buffers<CR>
+nnoremap <silent> [fzf-p]B     :<C-u>CocCommand fzf-preview.AllBuffers<CR>
+nnoremap <silent> [fzf-p]o     :<C-u>CocCommand fzf-preview.FromResources buffer project_mru<CR>
+nnoremap <silent> [fzf-p]<C-o> :<C-u>CocCommand fzf-preview.Jumps<CR>
+nnoremap <silent> [fzf-p]g;    :<C-u>CocCommand fzf-preview.Changes<CR>
+nnoremap <silent> [fzf-p]/     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
+nnoremap <silent> [fzf-p]*     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
+nnoremap          [fzf-p]gr    :<C-u>CocCommand fzf-preview.ProjectGrep<Space>
+xnoremap          [fzf-p]gr    "sy:CocCommand   fzf-preview.ProjectGrep<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
+nnoremap <silent> [fzf-p]t     :<C-u>CocCommand fzf-preview.BufferTags<CR>
+nnoremap <silent> [fzf-p]q     :<C-u>CocCommand fzf-preview.QuickFix<CR>
+nnoremap <silent> [fzf-p]l     :<C-u>CocCommand fzf-preview.LocationList<CR>
 
-" Default fzf layout
-" - down / up / left / right
-let g:fzf_layout = { 'down': '~40%' }
-
-" In Neovim, you can set up fzf window using a Vim command
-let g:fzf_layout = { 'window': 'enew' }
-let g:fzf_layout = { 'window': '-tabnew' }
-let g:fzf_layout = { 'window': '10new' }
-
-" Customize fzf colors to match your color scheme
-let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'border':  ['fg', 'Ignore'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'] }
-
-" Enable per-command history.
-" CTRL-N and CTRL-P will be automatically bound to next-history and
-" previous-history instead of down and up. If you don't like the change,
-" explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
-let g:fzf_history_dir = '~/.local/share/fzf-history'
+let $BAT_THEME = 'Nord'
+let $FZF_PREVIEW_PREVIEW_BAT_THEME = 'Nord'
 
 
 " =====================================================================================
-"                                 Git/Fugitive 
+"                                  Git
 " =====================================================================================
 " Command to checkout a Git branch with fuzzy search
 function! s:ExecForBranch(command, branch)
@@ -290,10 +275,34 @@ nnoremap <leader>grbm :Git rebase -i origin/master<CR>
 nnoremap <leader>grbc :Git rebase --continue<CR>
 nnoremap <leader>grba :Git rebase --abort<CR>
 
+" navigate chunks of current buffer
+nmap [h <Plug>(coc-git-prevchunk)
+nmap ]h <Plug>(coc-git-nextchunk)
+" show chunk diff at current position
+nmap <leader>gsh <Plug>(coc-git-chunkinfo)
+" show commit contains current position
+nmap <leader>gsc <Plug>(coc-git-commit)
+" create text object for git chunks
+omap ig <Plug>(coc-git-chunk-inner)
+xmap ig <Plug>(coc-git-chunk-inner)
+omap ag <Plug>(coc-git-chunk-outer)
+xmap ag <Plug>(coc-git-chunk-outer)
+
 
 " =====================================================================================
 "                                    COC 
 " =====================================================================================
+let g:coc_global_extensions = [
+      \'coc-git', 
+      \'coc-yaml', 
+      \'coc-rust-analyzer', 
+      \'coc-python',
+      \'coc-metals',
+      \'coc-vimlsp',
+      \'coc-sh',
+      \'coc-fzf-preview',
+      \'coc-marketplace'
+      \]
 
 " Some servers have issues with backup files, see #649
 set nobackup
@@ -385,8 +394,8 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 nmap <leader>rn <Plug>(coc-rename)
 
 " Remap for format selected region
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+xmap <leader>fs  <Plug>(coc-format-selected)
+nmap <leader>fs  <Plug>(coc-format-selected)
 
 augroup mygroup
   autocmd!
