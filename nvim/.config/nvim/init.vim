@@ -13,14 +13,14 @@ Plug 'jacoborus/tender.vim'
 Plug 'arcticicestudio/nord-vim'
 
 " TUI Plugins
-Plug 'vim-airline/vim-airline'      " status line (modes)
+Plug 'ChristianMoesl/vim-airline', {'branch': 'tabline-buf-filter'} " status line (modes)
 Plug 'psliwka/vim-smoothie'         " smooth scrolling
 Plug 'scrooloose/nerdtree'          " file browser
-Plug 'Xuyuanp/nerdtree-git-plugin'  " git status in file browser
 
 " Git Plugins
 Plug 'tpope/vim-fugitive'           " git baseline plugin
-Plug 'jreybert/vimagit'             " diff over all changes
+Plug 'airblade/vim-gitgutter'       " show modified lines and git hunk navigation
+Plug 'Xuyuanp/nerdtree-git-plugin'  " git status in file browser
 
 " Fuzzy file finder
 Plug '/usr/local/opt/fzf'
@@ -30,11 +30,9 @@ Plug 'scrooloose/nerdcommenter'     " comment blocks
 Plug 'tpope/vim-surround'           " change surrounding chars (e.g. ')
 Plug 'tpope/vim-unimpaired'         " move lines and much more
 Plug 'tpope/vim-repeat'             " . command for unimpaired/surround
-Plug '907th/vim-auto-save'          " automatically safe files while editing
 
 " Session management
 Plug 'tpope/vim-obsession'
-Plug 'dhruvasagar/vim-prosession'
 
 " Plugins for programming languages
 Plug 'neoclide/coc.nvim', {'branch': 'release'}   " language protocol client
@@ -72,39 +70,48 @@ set tabstop=2
 set hidden
 
 " delete buffer with a shortcut
-nnoremap <leader>d :bp\|bd! #<CR>
+nnoremap <leader>d :bd!<CR>
 
 " navigate to buffers of same type only and 
 " ignore this command in NERDTree buffers
-function! BnToSameType()
+function! SwitchBufToSameType(switch_fn)
   if bufname('%') =~# "^NERD_tree_"
     return
   endif
 
+  let cwd = getcwd()
   let start_buffer = bufnr('%')
   let prev_buftype = &buftype
-  bn
-  while !(&buftype ==# prev_buftype) && bufnr('%') != start_buffer
-    bn
+  execute a:switch_fn
+  while (!(&buftype ==# prev_buftype) || !BufferIsInWorkspace(bufnr('%'), cwd)) && bufnr('%') != start_buffer
+    execute a:switch_fn
   endwhile
 endfunction
 
-function! BpToSameType()
-  if bufname('%') =~# "^NERD_tree_"
-    return
-  endif
+nnoremap <silent> ]b :call SwitchBufToSameType('bn')<CR>
+nnoremap <silent> [b :call SwitchBufToSameType('bp')<CR>
 
-  let start_buffer = bufnr('%')
-  let prev_buftype = &buftype
-  bp 
-  while !(&buftype ==# prev_buftype) && bufnr('%') != start_buffer
-    bp
-  endwhile
+function! BufferIsInWorkspace(nr, work_dir)
+  let path = expand('#' . a:nr . ':p')
+
+  return (len(nvim_list_tabpages()) < 2) || (path =~ a:work_dir) || (path =~# 'term://')
 endfunction
 
-nnoremap <silent> ]b :call BnToSameType()<CR>
-nnoremap <silent> [b :call BpToSameType()<CR>
+function! ListBuffersInWorkspace(nr)
+  let buffers = filter(nvim_list_bufs(), {_, b -> nvim_buf_is_loaded(b)})
 
+  let buffers_in_workspace = filter(buffers, {_, nr -> BufferIsInWorkspace(nr, getcwd())})
+
+  for buf in buffers_in_workspace
+    if buf == a:nr
+      return 0
+    endif
+  endfor
+
+  return 1
+endfunction
+
+let g:AirlineTablineBufferFilter = function('ListBuffersInWorkspace')
 
 " =====================================================================================
 "                                  THEME
@@ -119,6 +126,7 @@ let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 
 " display buffer names without filepath for unique names
+let g:airline#extensions#tabline#show_tabs = 0
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline#extensions#tabline#ignore_bufadd_pat = 'defx|gundo|nerd_tree|startify|tagbar|undotree|vimfiler'
 
@@ -268,32 +276,18 @@ nnoremap <leader>gb :Git blame<CR>
 nnoremap <leader>gd :Gdiffsplit<CR>
 nnoremap <leader>gp :Git push<CR>
 nnoremap <leader>gpf :Git push --force-with-lease<CR>
-nnoremap <leader>gst :Git status<CR>
+nnoremap <leader>gst :Git<CR>
 nnoremap <silent> <leader>gsw :.call ExecForBranchFuzzy('Git switch')<CR>
 nnoremap <silent> <leader>grbi :.call ExecForBranchFuzzy('Git rebase -i')<CR>
 nnoremap <leader>grbm :Git rebase -i origin/master<CR>
 nnoremap <leader>grbc :Git rebase --continue<CR>
 nnoremap <leader>grba :Git rebase --abort<CR>
 
-" navigate chunks of current buffer
-nmap [h <Plug>(coc-git-prevchunk)
-nmap ]h <Plug>(coc-git-nextchunk)
-" show chunk diff at current position
-nmap <leader>gsh <Plug>(coc-git-chunkinfo)
-" show commit contains current position
-nmap <leader>gsc <Plug>(coc-git-commit)
-" create text object for git chunks
-omap ig <Plug>(coc-git-chunk-inner)
-xmap ig <Plug>(coc-git-chunk-inner)
-omap ag <Plug>(coc-git-chunk-outer)
-xmap ag <Plug>(coc-git-chunk-outer)
-
 
 " =====================================================================================
 "                                    COC 
 " =====================================================================================
 let g:coc_global_extensions = [
-      \'coc-git', 
       \'coc-yaml', 
       \'coc-rust-analyzer', 
       \'coc-python',
