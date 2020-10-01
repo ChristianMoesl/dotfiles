@@ -141,7 +141,7 @@ alias la='ls -lAhG'
 alias ll='ls -lhG'
 alias lsa='ls -lahG'
 
-alias cat='bat --theme=Nord'
+alias cat='bat --plain --theme=Nord'
 
 export BAT_THEME='Nord'
 
