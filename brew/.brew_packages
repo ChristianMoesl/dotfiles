@@ -1,10 +1,13 @@
+bat
 ccls
 coreutils
 docker-credential-helper
 fzf
 gcc
+gh
 gnupg
 gnuplot
+graphviz
 helm
 htop
 imagemagick

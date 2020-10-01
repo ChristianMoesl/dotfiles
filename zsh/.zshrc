@@ -84,7 +84,6 @@ plugins=(
   zsh-autosuggestions
   zsh-syntax-highlighting
   fzf
-  zsh-dircolors-nord
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -127,7 +126,9 @@ export PATH="/usr/local/opt/python@3.8/libexec/bin:$PATH"
 
 eval "$(rbenv init -)"
 
+# for gpg sign with pinentry
 export GPG_TTY=$(tty)
+
 export TERM=screen-256color
 
 # shortcut to fuzzy find file and edit it
