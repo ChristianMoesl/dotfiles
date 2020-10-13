@@ -16,6 +16,7 @@ Plug 'arcticicestudio/nord-vim'
 Plug 'ChristianMoesl/vim-airline', {'branch': 'tabline-buf-filter'} " status line (modes)
 Plug 'psliwka/vim-smoothie'         " smooth scrolling
 Plug 'scrooloose/nerdtree'          " file browser
+Plug 'liuchengxu/vim-which-key'     " display help for key mappings
 
 " Git Plugins
 Plug 'tpope/vim-fugitive'           " git baseline plugin
@@ -61,6 +62,9 @@ set shiftwidth=2
 set softtabstop=2
 set tabstop=2
 
+" Define prefix dictionary
+let g:which_key_map =  {}
+
 " =====================================================================================
 "                                  BUFFER
 " =====================================================================================
@@ -69,8 +73,6 @@ set tabstop=2
 " if hidden is not set, TextEdit might fail.
 set hidden
 
-" delete buffer with a shortcut
-nnoremap <leader>d :bd!<CR>
 
 " navigate to buffers of same type only and 
 " ignore this command in NERDTree buffers
@@ -86,10 +88,19 @@ function! SwitchBufToSameType(switch_fn)
   while (!(&buftype ==# prev_buftype) || !BufferIsInWorkspace(bufnr('%'), cwd)) && bufnr('%') != start_buffer
     execute a:switch_fn
   endwhile
+
+  return start_buffer == bufnr('%')
 endfunction
 
-nnoremap <silent> ]b :call SwitchBufToSameType('bn')<CR>
-nnoremap <silent> [b :call SwitchBufToSameType('bp')<CR>
+function! DeleteBufferAnMoveToPrev()
+  let start_buffer = bufnr('%')
+
+  let success = SwitchBufToSameType('bp')
+
+  if !success | execute 'bp' | endif
+
+  execute 'bd! ' . start_buffer
+endfunction
 
 function! BufferIsInWorkspace(nr, work_dir)
   let path = expand('#' . a:nr . ':p')
@@ -103,15 +114,46 @@ function! ListBuffersInWorkspace(nr)
   let buffers_in_workspace = filter(buffers, {_, nr -> BufferIsInWorkspace(nr, getcwd())})
 
   for buf in buffers_in_workspace
-    if buf == a:nr
-      return 0
-    endif
+    if buf == a:nr | return 0 | endif
   endfor
 
   return 1
 endfunction
 
+function! CloseAllBuffersButCurrent()
+  let curr = bufnr("%")
+  let last = bufnr("$")
+
+  if curr > 1    | silent! execute "1,".(curr-1)."bd"     | endif
+  if curr < last | silent! execute (curr+1).",".last."bd" | endif
+endfunction
+
 let g:AirlineTablineBufferFilter = function('ListBuffersInWorkspace')
+
+nnoremap <silent> ]b :call SwitchBufToSameType('bn')<CR>
+nnoremap <silent> [b :call SwitchBufToSameType('bp')<CR>
+
+" delete buffer with a shortcut
+nnoremap <leader>bc :call DeleteBufferAnMoveToPrev()<CR>
+nnoremap <leader>bC :call CloseAllBuffersButCurrent()<CR>
+
+let g:which_key_map.b = {
+      \ 'name' : '+buffer',
+      \ 'c' : 'buffer-close-current',
+      \ 'C' : 'buffer-close-other',
+      \ }
+
+" =====================================================================================
+"                                  WINDOW
+" =====================================================================================
+
+nnoremap <leader>wo :only<CR>
+
+let g:which_key_map.w = {
+      \ 'name' : '+window',
+      \ 'o' : 'window-only',
+      \ }
+
 
 " =====================================================================================
 "                                  THEME
@@ -141,8 +183,8 @@ colorscheme nord
 " =====================================================================================
 
 " shortcut to open terminal in split
-nnoremap <leader>t :vsplit<CR>:terminal<CR>
-vnoremap <leader>t :vsplit<CR>:terminal<CR>
+nnoremap <leader>ts :vsplit<CR>:terminal<CR>
+vnoremap <leader>ts :vsplit<CR>:terminal<CR>
 
 " Easier split navigation (omit C-W) in all modes
 " Normal Mode:
@@ -167,10 +209,10 @@ tnoremap <C-L> <C-\><C-n><C-W><C-L>
 tnoremap <C-H> <C-\><C-n><C-W><C-H>
 
 " resize windows
-nnoremap <Up> :resize +2<CR>
-nnoremap <Down> :resize -2<CR>
-nnoremap <Left> :vertical resize +2<CR>
-nnoremap <Right> :vertical resize -2<CR>
+nnoremap <Up> :resize +5<CR>
+nnoremap <Down> :resize -5<CR>
+nnoremap <Left> :vertical resize +5<CR>
+nnoremap <Right> :vertical resize -5<CR>
 
 " Fix shortcuts in terminal mode
 tnoremap <Esc> <C-\><C-n>
@@ -194,12 +236,20 @@ xmap ]l <Plug>unimpairedMoveSelectionDown
 "                                    Test
 " =====================================================================================
 " Map shortcuts to run tests with vim-test
-nmap <silent> <leader>tn :TestNearest<CR>
-nmap <silent> <leader>tf :TestFile<CR>
-nmap <silent> <leader>ts :TestSuite<CR>
-nmap <silent> <leader>tl :TestLast<CR>
-nmap <silent> <leader>tv :TestVisit<CR>
+nnoremap <silent> <leader>tn :TestNearest<CR>
+nnoremap <silent> <leader>tf :TestFile<CR>
+nnoremap <silent> <leader>ts :TestSuite<CR>
+nnoremap <silent> <leader>tl :TestLast<CR>
+nnoremap <silent> <leader>tv :TestVisit<CR>
 
+let g:which_key_map.t = {
+      \ 'name' : '+test',
+      \ 'n' : 'test-nearest',
+      \ 'f' : 'test-file',
+      \ 's' : 'test-suite',
+      \ 'l' : 'test-last',
+      \ 'v' : 'test-visit',
+      \ }
 
 " =====================================================================================
 "                                 Auto Save
@@ -213,6 +263,8 @@ let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
 " =====================================================================================
 noremap <leader>n :NERDTreeToggle<CR>
 
+let g:which_key_map.n = 'nerd-tree-toggle'
+
 " disable netrw
 let g:loaded_netrw = 0
 let g:loaded_netrwPlugin = 1
@@ -222,33 +274,69 @@ let g:NERDTreeShowHidden = 1
 let g:NERDTreeAutoDeleteBuffer = 1
 let g:NERDTreeChDirMode = 3 
 
+" =====================================================================================
+"                                 NERDCommenter
+" =====================================================================================
+let g:which_key_map.c = {
+      \ 'name' : '+comment',
+      \ ' ' : 'comment-toggle',
+      \ '$' : 'comment-to-eol',
+      \ 'a' : 'comment-alt-delims',
+      \ 'A' : 'comment-append',
+      \ 'b' : 'comment-align-both',
+      \ 'c' : 'comment',
+      \ 'i' : 'comment-invert',
+      \ 'l' : 'comment-align-left',
+      \ 'm' : 'comment-minimal',
+      \ 'n' : 'comment-nested',
+      \ 's' : 'comment-sexy',
+      \ 'u' : 'uncomment',
+      \ 'y' : 'comment-yank',
+      \ }
 
 " =====================================================================================
 "                                FZF Plugin
 " =====================================================================================
-nmap <Leader>f [fzf-p]
-xmap <Leader>f [fzf-p]
-
-nnoremap <silent> [fzf-p]p     :<C-u>CocCommand fzf-preview.FromResources project_mru git<CR>
+nnoremap <silent> <Leader>fp     :<C-u>CocCommand fzf-preview.FromResources project_mru git<CR>
 nnoremap <silent> <C-p>        :<C-u>CocCommand fzf-preview.FromResources project_mru git<CR>
-nnoremap <silent> [fzf-p]gs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
-nnoremap <silent> [fzf-p]ga    :<C-u>CocCommand fzf-preview.GitActions<CR>
-nnoremap <silent> [fzf-p]b     :<C-u>CocCommand fzf-preview.Buffers<CR>
-nnoremap <silent> [fzf-p]B     :<C-u>CocCommand fzf-preview.AllBuffers<CR>
-nnoremap <silent> [fzf-p]o     :<C-u>CocCommand fzf-preview.FromResources buffer project_mru<CR>
-nnoremap <silent> [fzf-p]<C-o> :<C-u>CocCommand fzf-preview.Jumps<CR>
-nnoremap <silent> [fzf-p]g;    :<C-u>CocCommand fzf-preview.Changes<CR>
-nnoremap <silent> [fzf-p]/     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
-nnoremap <silent> [fzf-p]*     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
-nnoremap          [fzf-p]gr    :<C-u>CocCommand fzf-preview.ProjectGrep<Space>
-xnoremap          [fzf-p]gr    "sy:CocCommand   fzf-preview.ProjectGrep<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
-nnoremap <silent> [fzf-p]t     :<C-u>CocCommand fzf-preview.BufferTags<CR>
-nnoremap <silent> [fzf-p]q     :<C-u>CocCommand fzf-preview.QuickFix<CR>
-nnoremap <silent> [fzf-p]l     :<C-u>CocCommand fzf-preview.LocationList<CR>
+nnoremap <silent> <Leader>fgs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
+nnoremap <silent> <Leader>fga    :<C-u>CocCommand fzf-preview.GitActions<CR>
+nnoremap <silent> <Leader>fg;    :<C-u>CocCommand fzf-preview.Changes<CR>
+nnoremap <silent> <Leader>fb     :<C-u>CocCommand fzf-preview.Buffers<CR>
+nnoremap <silent> <Leader>fB     :<C-u>CocCommand fzf-preview.AllBuffers<CR>
+nnoremap <silent> <Leader>fo     :<C-u>CocCommand fzf-preview.FromResources buffer project_mru<CR>
+nnoremap <silent> <Leader>f<C-o> :<C-u>CocCommand fzf-preview.Jumps<CR>
+nnoremap <silent> <Leader>f/     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
+nnoremap <silent> <Leader>f*     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
+nnoremap          <Leader>fP     :<C-u>CocCommand fzf-preview.ProjectGrep<Space>
+xnoremap          <Leader>fP     "sy:CocCommand   fzf-preview.ProjectGrep<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
+nnoremap <silent> <Leader>ft     :<C-u>CocCommand fzf-preview.BufferTags<CR>
+nnoremap <silent> <Leader>fq     :<C-u>CocCommand fzf-preview.QuickFix<CR>
+nnoremap <silent> <Leader>fl     :<C-u>CocCommand fzf-preview.LocationList<CR>
 
 let $BAT_THEME = 'Nord'
 let $FZF_PREVIEW_PREVIEW_BAT_THEME = 'Nord'
 
+let g:which_key_map.f = {
+      \ 'name' : '+find',
+      \ 'p' : 'find-project-resources',
+      \ 'P' : 'find-project-grep',
+      \ 'g' : {
+        \ 'name' : '+git',
+        \ 's' : 'find-git-status',
+        \ 'a' : 'find-git-actions',
+        \ ';' : 'find-git-changes',
+        \ },
+      \ 'b' : 'find-buffers',
+      \ 'B' : 'find-all-buffers',
+      \ 'o' : 'find-buffers-and-project',
+      \ '/' : 'find-lines',
+      \ '*' : 'find-lines-extended',
+      \ 't' : 'find-buffer-tags',
+      \ 'q' : 'find-quickfix-list',
+      \ 'l' : 'find-location-list',
+      \ '<C-O>' : 'find-jumps',
+      \ }
 
 " =====================================================================================
 "                                  Git
@@ -267,22 +355,61 @@ endfunction
 
 " fast Git shortcuts
 nnoremap <leader>gw :Gwrite<CR>
-nnoremap <leader>gr :Gread<CR>
 nnoremap <leader>gc :Git commit<CR>
-nnoremap <leader>gca :Git commit --amend<CR>
+nnoremap <leader>gC :Git commit --amend<CR>
 nnoremap <leader>gl :Git log<CR>
 nnoremap <leader>gd :Git diff<CR>
 nnoremap <leader>gb :Git blame<CR>
 nnoremap <leader>gd :Gdiffsplit<CR>
 nnoremap <leader>gp :Git push<CR>
-nnoremap <leader>gpf :Git push --force-with-lease<CR>
-nnoremap <leader>gst :Git<CR>
-nnoremap <silent> <leader>gsw :.call ExecForBranchFuzzy('Git switch')<CR>
-nnoremap <silent> <leader>grbi :.call ExecForBranchFuzzy('Git rebase -i')<CR>
-nnoremap <leader>grbm :Git rebase -i origin/master<CR>
-nnoremap <leader>grbc :Git rebase --continue<CR>
-nnoremap <leader>grba :Git rebase --abort<CR>
+nnoremap <leader>gP :Git push --force-with-lease<CR>
+nnoremap <leader>gs :Git<CR>
+nnoremap <silent> <leader>gS :.call ExecForBranchFuzzy('Git switch')<CR>
+nnoremap <silent> <leader>gri :.call ExecForBranchFuzzy('Git rebase -i')<CR>
+nnoremap <leader>grm :Git rebase -i origin/master<CR>
+nnoremap <leader>grc :Git rebase --continue<CR>
+nnoremap <leader>gra :Git rebase --abort<CR>
 
+let g:gitgutter_map_keys = 0
+
+nmap ]h <Plug>(GitGutterNextHunk)
+nmap [h <Plug>(GitGutterPrevHunk)
+
+omap ih <Plug>(GitGutterTextObjectInnerPending)
+omap ah <Plug>(GitGutterTextObjectOuterPending)
+xmap ih <Plug>(GitGutterTextObjectInnerVisual)
+xmap ah <Plug>(GitGutterTextObjectOuterVisual)
+
+nmap <leader>ghs <Plug>(GitGutterStageHunk)
+nmap <leader>ghu <Plug>(GitGutterUndoHunk)
+nmap <leader>ghp <Plug>(GitGutterPreviewHunk)
+    
+let g:which_key_map.g = {
+      \ 'name' : '+git',
+      \ 'b' : 'blame',
+      \ 'w' : 'stage-buffer',
+      \ 'c' : 'commit',
+      \ 'C' : 'commit-amend',
+      \ 'd' : 'diff-buffer-split',
+      \ 'h' : {
+        \ 'name' : '+hunk',
+        \ 'p' : 'hunk-preview',
+        \ 's' : 'hunk-stage',
+        \ 'u' : 'hunk-undo',
+        \ },
+      \ 'l' : 'log',
+      \ 'p' : 'push',
+      \ 'P' : 'push-force',
+      \ 's' : 'status',
+      \ 'S' : 'switch',
+      \ 'r' : {
+        \ 'name' : '+rebase',
+        \ 'i' : 'rebase',
+        \ 'm' : 'rebase-on-master',
+        \ 'c' : 'rebase-continue',
+        \ 'a' : 'rebase-abort',
+        \ }
+      \ }
 
 " =====================================================================================
 "                                    COC 
@@ -298,7 +425,7 @@ let g:coc_global_extensions = [
       \'coc-marketplace'
       \]
 
-" Some servers have issues with backup files, see #649
+" <silent> Some servers have issues with backup files, see #649
 set nobackup
 set nowritebackup
 
@@ -384,13 +511,6 @@ endfunction
 " Highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-" Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
-
-" Remap for format selected region
-xmap <leader>fs  <Plug>(coc-format-selected)
-nmap <leader>fs  <Plug>(coc-format-selected)
-
 augroup mygroup
   autocmd!
   " Setup formatexpr specified filetype(s).
@@ -398,27 +518,6 @@ augroup mygroup
   " Update signature help on jump placeholder
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
-
-" Applying codeAction to the selected region.
-" Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
-
-" Remap keys for applying codeAction to the current buffer.
-nmap <leader>ac  <Plug>(coc-codeaction)
-" Apply AutoFix to problem on the current line.
-nmap <leader>qf  <Plug>(coc-fix-current)
-
-" Map function and class text objects
-" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-xmap if <Plug>(coc-funcobj-i)
-omap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap af <Plug>(coc-funcobj-a)
-xmap ic <Plug>(coc-classobj-i)
-omap ic <Plug>(coc-classobj-i)
-xmap ac <Plug>(coc-classobj-a)
-omap ac <Plug>(coc-classobj-a)
 
 " Use CTRL-S for selections ranges.
 " Requires 'textDocument/selectionRange' support of language server.
@@ -445,7 +544,7 @@ nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
 " Show commands.
 nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
 " Find symbol of current document.
-nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+"nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
 " Search workspace symbols.
 nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
 " Do default action for next item.
@@ -455,8 +554,57 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
+" Map function and class text objects
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for format selected region
+xmap <leader>rf  <Plug>(coc-format-selected)
+nmap <leader>rf  <Plug>(coc-format-selected)
+
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>ra  <Plug>(coc-codeaction-selected)
+nmap <leader>ra  <Plug>(coc-codeaction-selected)
+
+" Remap keys for applying codeAction to the current buffer.
+nmap <leader>rA  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>rq  <Plug>(coc-fix-current)
+
+let g:which_key_map.r = {
+      \ 'name' : '+refactor',
+      \ 'a' : 'codeaction',
+      \ 'A' : 'codeaction-current-buffer',
+      \ 'f' : 'format-selected',
+      \ 'n' : 'rename',
+      \ 'q' : 'auto-fix-current',
+      \ }
+
 
 " Configure filetype detection
 au BufRead,BufNewFile *.sbt set filetype=scala
 au BufRead,BufNewFile *.tsx set filetype=typescript.tsx
 au BufRead,BufNewFile *.jsx set filetype=javascript.jsx
+
+
+" =====================================================================================
+"                                    Which Key 
+" =====================================================================================
+nnoremap <silent> <leader> :<c-u>WhichKey '\'<CR>
+vnoremap <silent> <leader> :<c-u>WhichKeyVisual '\'<CR>
+
+" By default timeoutlen is 1000 ms
+set timeoutlen=500
+
+call which_key#register('\', 'g:which_key_map')
