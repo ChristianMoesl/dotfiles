@@ -1,0 +1,6 @@
+ssh/.ssh/known_hosts
+
+gnupg/.gnupg/*
+!gnupg/.gnupg/gpg-agent.conf
+!gnupg/.gnupg/gpg.conf
+!gnupg/.gnupg/sshcontrol
