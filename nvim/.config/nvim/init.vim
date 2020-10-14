@@ -415,6 +415,7 @@ let g:which_key_map.g = {
 "                                    COC 
 " =====================================================================================
 let g:coc_global_extensions = [
+      \'coc-clangd',
       \'coc-yaml', 
       \'coc-rust-analyzer', 
       \'coc-python',
@@ -597,6 +598,13 @@ au BufRead,BufNewFile *.sbt set filetype=scala
 au BufRead,BufNewFile *.tsx set filetype=typescript.tsx
 au BufRead,BufNewFile *.jsx set filetype=javascript.jsx
 
+" Configure clang-format on file save
+function! ClangFormatOnSave()
+  let l:formatdiff = 1
+  py3f /usr/local/opt/llvm/share/clang/clang-format.py
+endfunction
+
+autocmd BufWritePre *.h,*.c,*.cpp call ClangFormatOnSave()
 
 " =====================================================================================
 "                                    Which Key 
