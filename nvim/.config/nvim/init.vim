@@ -360,9 +360,12 @@ nnoremap <leader>gC :Git commit --amend<CR>
 nnoremap <leader>gl :Git log<CR>
 nnoremap <leader>gd :Git diff<CR>
 nnoremap <leader>gb :Git blame<CR>
+nnoremap <leader>gB :Git switch -c 
 nnoremap <leader>gd :Gdiffsplit<CR>
 nnoremap <leader>gp :Git push<CR>
 nnoremap <leader>gP :Git push --force-with-lease<CR>
+nnoremap <leader>gf :Git fetch<CR>
+nnoremap <leader>gF :Git pull<CR>
 nnoremap <leader>gs :Git<CR>
 nnoremap <silent> <leader>gS :.call ExecForBranchFuzzy('Git switch')<CR>
 nnoremap <silent> <leader>gri :.call ExecForBranchFuzzy('Git rebase -i')<CR>
@@ -387,6 +390,7 @@ nmap <leader>ghp <Plug>(GitGutterPreviewHunk)
 let g:which_key_map.g = {
       \ 'name' : '+git',
       \ 'b' : 'blame',
+      \ 'B' : 'switch-create',
       \ 'w' : 'stage-buffer',
       \ 'c' : 'commit',
       \ 'C' : 'commit-amend',
@@ -400,6 +404,8 @@ let g:which_key_map.g = {
       \ 'l' : 'log',
       \ 'p' : 'push',
       \ 'P' : 'push-force',
+      \ 'f' : 'fetch',
+      \ 'F' : 'pull',
       \ 's' : 'status',
       \ 'S' : 'switch',
       \ 'r' : {
