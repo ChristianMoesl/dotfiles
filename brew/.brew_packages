@@ -1,5 +1,4 @@
 bat
-ccls
 coreutils
 docker-credential-helper
 fzf
@@ -12,6 +11,7 @@ helm
 htop
 imagemagick
 kubernetes-cli
+llvm
 neovim
 node@12
 openssl
