@@ -13,7 +13,7 @@ imagemagick
 kubernetes-cli
 llvm
 neovim
-node@12
+node
 openssl
 pidof
 pinentry-mac
@@ -29,3 +29,4 @@ telnet
 tldr
 tree
 wget
+fabianishere/personal/pam_reattach
