@@ -17,7 +17,7 @@ node
 openssl
 pidof
 pinentry-mac
-python
+python3
 rancher-cli
 rbenv
 readline

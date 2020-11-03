@@ -3,6 +3,7 @@
 set -euxo pipefail
 
 # Install brew and  tap additional repositories
+export CI=1 # do not ask user for something
 zsh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 brew tap homebrew/cask-fonts
 brew tap homebrew/cask-drivers
@@ -11,10 +12,15 @@ brew tap homebrew/cask-drivers
 mkdir ~/Workspace
 cd ~/Workspace
 
-git https://github.com/ChristianMoesl/dotfiles
+git clone https://github.com/ChristianMoesl/dotfiles
 cd dotfiles
 
+# company install
+#git fetch origin
+#git checkout --track origin/emundo
+
 # Map all dotfiles into the home directory
+brew install stow
 stow -v -R -t ~ $(ls -d */)
 
 # Install all the software
@@ -22,7 +28,7 @@ brew cask install $(cat brew/.config/brew/installed-casks)
 brew install $(cat brew/.config/brew/installed-packages)
 
 # install OhMyZsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" || true
 
 # install OhMyZsh plugins
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
@@ -38,10 +44,7 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 # Install python3 provider for neovim
-pip3 install --user neovim pynvim
-
-echo "NVIM plugin manager installed"
-echo "Please start NVIM and run :PlugInstall to finishe installation"
+python3 -m pip install --user --upgrade pynvim
 
 # Enable TouchID for sudo
 # !!! this pam module has to be installed fabianishere/personal/pam_reattach !!!
@@ -57,3 +60,7 @@ chmod 600 ~/.gnupg/*
 
 # Install Rust toolchain
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+echo "Everything is installed, but there is something left todo"
+echo "- import settings for iterm2 from ~/.config/iterm2"
+echo "- please start NVIM and run :PlugInstall to finishe installation"

@@ -122,7 +122,7 @@ export NODE_PATH=/usr/local/lib/node_modules
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="/usr/local/opt/llvm/bin:$PATH"
-export PATH="/usr/local/opt/python@3.8/libexec/bin:$PATH"
+export PATH="/usr/local/opt/python@3/libexec/bin:$PATH"
 
 eval "$(rbenv init -)"
 
