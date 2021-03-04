@@ -26,6 +26,7 @@ stow -v -R -t ~ $(ls -d */)
 # Install all the software
 brew cask install $(cat brew/.config/brew/installed-casks)
 brew install $(cat brew/.config/brew/installed-packages)
+npm install --global yarn
 
 # install OhMyZsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" || true

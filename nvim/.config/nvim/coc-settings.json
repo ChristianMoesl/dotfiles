@@ -6,6 +6,14 @@
     "Markdown",
     "rust"
   ],
+  "clients": {
+    "haskell-language-server": {
+      "command": ["haskell-language-server-wrapper", "--lsp"],
+      "scopes": ["source.haskell"],
+      "syntaxes": ["Packages/Haskell/Haskell.sublime-syntax"],
+      "languageId": "haskell"
+    }
+  },
   "languageserver": {
     "metals": {
       "command": "metals-vim",
@@ -17,5 +25,6 @@
         "sbt"
       ]
     }
-  }
+  },
+  "latex.build.onSave": true
 }

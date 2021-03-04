@@ -1,4 +1,5 @@
 ssh/.ssh/known_hosts
+iterm2/.config/iterm2/AppSupport
 
 gnupg/.gnupg/*
 !gnupg/.gnupg/gpg-agent.conf

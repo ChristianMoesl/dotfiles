@@ -41,6 +41,9 @@ Plug 'vim-test/vim-test'                          " run tests with vim
 Plug 'derekwyatt/vim-scala'                       " server for Scala
 Plug 'leafgarland/typescript-vim'                 " server for typescript
 Plug 'peitalin/vim-jsx-typescript'                " syntax highlighter for ts/tsx
+Plug 'cespare/vim-toml'                           " syntax highlighter for toml
+Plug 'phlo/vim-btor2'                             " syntax highlighter for btor2
+Plug 'nbouscal/vim-stylish-haskell'               " code formater for Haskell
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  } " markdown preview in browser
 
 call plug#end()
@@ -429,7 +432,8 @@ let g:coc_global_extensions = [
       \'coc-vimlsp',
       \'coc-sh',
       \'coc-fzf-preview',
-      \'coc-marketplace'
+      \'coc-marketplace',
+      \'coc-texlab'
       \]
 
 " <silent> Some servers have issues with backup files, see #649
@@ -611,6 +615,8 @@ function! ClangFormatOnSave()
 endfunction
 
 autocmd BufWritePre *.h,*.c,*.cpp call ClangFormatOnSave()
+
+let g:stylish_haskell_command='stylish-haskell'
 
 " =====================================================================================
 "                                    Which Key 
