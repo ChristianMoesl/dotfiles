@@ -26,5 +26,6 @@
       ]
     }
   },
-  "latex.build.onSave": true
+  "latex.build.onSave": true,
+  "rust-analyzer.cargo.allFeatures": true
 }
