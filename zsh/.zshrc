@@ -1,3 +1,4 @@
+export FZF_BASE="/opt/homebrew/opt/fzf"
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -78,9 +79,8 @@ DISABLE_AUTO_TITLE="true"
 plugins=(
   git
   docker
-  kubectl
   web-search
-  osx
+  macos
   zsh-autosuggestions
   zsh-syntax-highlighting
   fzf
@@ -118,16 +118,10 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
 export NODE_PATH=/usr/local/lib/node_modules
-export WASMTIME_HOME="$HOME/.wasmtime"
 
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="/usr/local/opt/llvm/bin:$PATH"
-export PATH="/usr/local/opt/python@3/libexec/bin:$PATH"
-export PATH="/usr/local/opt/openjdk/bin:$PATH"
-export PATH="$WASMTIME_HOME/bin:$PATH"
-
-eval "$(rbenv init -)"
+export PATH="/opt/homebrew/bin:$PATH"
 
 # for gpg sign with pinentry
 export GPG_TTY=$(tty)
@@ -156,16 +150,9 @@ export BAT_THEME='Nord'
 autoload -Uz compinit
 compinit
 
-# Kubernetes setup
-if [ /usr/local/bin/kubectl ]; then source <(kubectl completion zsh); fi
-alias kcref='kubectl create -f'
-
 if [ /usr/local/bin/gh ]; then source <(gh completion -s zsh); fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/Users/chris/.sdkman"
-[[ -s "/Users/chris/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/chris/.sdkman/bin/sdkman-init.sh"
 [ -f "/Users/chris/.ghcup/env" ] && source "/Users/chris/.ghcup/env" # ghcup-env
