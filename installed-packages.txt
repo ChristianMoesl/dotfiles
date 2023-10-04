@@ -5,18 +5,14 @@ fzf
 gcc
 gh
 gnupg
-gnuplot
-graphviz
 htop
 imagemagick
-llvm
 neovim
 node
 openssl
 pidof
 pinentry-mac
 python3
-rbenv
 readline
 ripgrep
 stow
@@ -24,6 +20,6 @@ telnet
 tldr
 tree
 wget
-qrencode
 ykman
+youtube-dl
 zbar

@@ -1,12 +1,8 @@
 1password
 discord
 docker
-font-fira-code
-iterm2
 logitech-options
-microsoft-excel
-vimr
+kitty
 whatsapp
 slack
-zoom
 google-cloud-sdk
