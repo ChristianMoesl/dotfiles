@@ -60,6 +60,9 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # Allow press and hold in VSCode
 defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
 
+# install github cli extension to get default branch
+gh extension install daido1976/gh-default-branch
+
 echo "Everything is installed, but there is something left todo"
 echo "- import settings for iterm2 from ~/.config/iterm2"
 echo "- please start NVIM and run :PlugInstall to finishe installation"

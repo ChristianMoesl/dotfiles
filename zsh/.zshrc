@@ -117,11 +117,16 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
-export NODE_PATH=/usr/local/lib/node_modules
 
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/Users/chris/.dotnet/tools:$PATH"
+export PATH="$HOME/go/bin:$PATH"
+
+
+export NODE_PATH=/usr/local/lib/node_modules
+export NODE_EXTRA_CA_CERTS="$(mkcert -CAROOT)/rootCA.pem"
 
 # for gpg sign with pinentry
 export GPG_TTY=$(tty)
@@ -130,6 +135,11 @@ export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 gpgconf --launch gpg-agent
 
 export TERM=screen-256color
+
+export FZF_DEFAULT_OPTS=" \
+--color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+--color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+--color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
 
 # shortcut to fuzzy find file and edit it
 se() { fzf | xargs $EDITOR ; }
@@ -146,6 +156,68 @@ alias cat='bat --plain --theme=Nord'
 
 export BAT_THEME='Nord'
 
+# rebase all changes from latest origin/HEAD commit onwards interactivly
+grchanges () {
+  current_branch="$(git branch --show-current)"
+  base_branch="$(git rev-parse --abbrev-ref origin/HEAD)"
+  head_commit="$(git merge-base $current_branch $base_branch)"
+  git rebase -i $head_commit
+}
+
+# push git branch to github and create draft pull request
+gprc() {
+  git push -u
+  gh pr create --draft --fill
+}
+
+# add all changes, commit them and push
+gacp() {
+  git add --all
+  git commit -v --amend --no-edit
+  git push -u --force-with-lease
+}
+
+unalias gsw
+# change branch with fzf
+gsw() {
+  name=$(git branch | fzf | cut -c 3-)
+  [ -n "$name" ] && git switch $name
+}
+
+# mark github pull request as ready and add assignee's
+gprmr() {
+  gh pr ready
+  gh pr edit --add-assignee PatrickSchuster,pablotp,mteufner,mh-it,StefanMensik
+}
+
+# garbage collect local branches
+gbgc() {
+  default_branch=$(gh default-branch show --name-only)
+  echo "remove merged branches"
+  git branch --merged $default_branch | grep -v "^[ *]*${default_branch}\$" | xargs git branch -d
+  echo "prune remote branches"
+  git remote prune origin
+  echo "remove branches with 'gone' remote"
+  git branch -v | grep "\[gone\]" | cut -c 3- | cut -d' ' -f1 | xargs git branch -D
+  echo "delete local branches without remote"
+  git for-each-ref --format '%(refname:short) %(upstream)' refs/heads | awk '{if (!$2) print $1;}' | xargs git branch -D
+}
+
+# switch to default branch, clear garbage branches and pull from remote
+greset() {
+  git switch "$(gh default-branch show --name-only)"
+  gbgc
+  git pull
+}
+
+unalias gpr
+# checkout a pull request with fuzzy search
+gpr() {
+  id=$(gh pr list --json number,title,headRefName,author --template '{{range .}}{{tablerow (printf "#%v" .number | autocolor "green") .title (.headRefName | color "cyan") (.author.login | color "yellow") .isDraft }}{{end}}' | fzf --ansi | cut -d ' ' -f 1 | cut -c 2-)
+  [ -n "$id" ] && gh pr checkout "$id"
+}
+
+
 # setup autocomplete
 autoload -Uz compinit
 compinit
@@ -156,3 +228,10 @@ if [ /usr/local/bin/gh ]; then source <(gh completion -s zsh); fi
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 
 [ -f "/Users/chris/.ghcup/env" ] && source "/Users/chris/.ghcup/env" # ghcup-env
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+export PATH="/opt/homebrew/sbin:$PATH"
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

@@ -1,12 +1,13 @@
 [user]
 	name = Christian Mösl
 	email = christian.moesl@live.at
-	signingkey = 34C020723C521F4A! 
+  # signingkey = 30C2947A
+  # 34C020723C521F4A! 
   # for university: signingkey = 71F860C6B8FA1C91\! 
 [core]
 	editor = nvim
 [commit]
-	gpgsign = true
+  # gpgsign = true
 [gpg]
 	program = gpg
 [diff]
@@ -28,3 +29,9 @@
 	smudge = git-lfs smudge -- %f
 [pull]
 	rebase = true
+[push]
+  default = current
+[rebase]
+  autosquash = true
+[alias]
+  fixup = "!git log -n 50 --pretty=format:'%h %s' --no-merges | fzf | cut -c -7 | xargs -o git commit --fixup"
