@@ -2,7 +2,7 @@
 
 set -euxo pipefail
 
-# Install brew and  tap additional repositories
+# Install brew and tap additional repositories
 export CI=1 # do not ask user for something
 zsh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 brew tap homebrew/cask-fonts
@@ -38,6 +38,9 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 # Fix ZSH config after OhMyZsh installation
 rm ~/.zshrc
 mv ~/.zshrc.pre-oh-my-zsh ~/.zshrc
+
+# Setup Kitty
+kitty +kitten themes --reload-in=all Catppuccin-Mocha
 
 # Install Nvim plugin manager
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
