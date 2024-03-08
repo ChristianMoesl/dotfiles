@@ -38,13 +38,6 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 rm ~/.zshrc
 mv ~/.zshrc.pre-oh-my-zsh ~/.zshrc
 
-# Install zsh-syntax-highlighting Catppuccin theme
-git clone https://github.com/catppuccin/zsh-syntax-highlighting.git "$TMPDIR/zsh-syntax-highlighting"
-mkdir -p ~/.config/zsh/
-cp "$TMPDIR/zsh-syntax-highlighting/themes/catppuccin_mocha-zsh-syntax-highlighting.zsh" \
-  ~/.config/zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh
-rm -rf "$TMPDIR/zsh-syntax-highlighting"
-
 # Setup Kitty
 kitty +kitten themes --reload-in=all Catppuccin-Mocha
 

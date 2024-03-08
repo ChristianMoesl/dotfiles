@@ -1,7 +1,6 @@
 ssh/.ssh/known_hosts
-iterm2/.config/iterm2/AppSupport
 
-gnupg/.gnupg/*
-!gnupg/.gnupg/gpg-agent.conf
-!gnupg/.gnupg/gpg.conf
-!gnupg/.gnupg/sshcontrol
+.gnupg/*
+!.gnupg/gpg-agent.conf
+!.gnupg/gpg.conf
+!.gnupg/sshcontrol
