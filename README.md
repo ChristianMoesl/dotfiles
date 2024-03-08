@@ -17,7 +17,7 @@ stow.
 ```zsh
 $ git clone https://github.com/ChristianMoesl/dotfiles
 $ cd dotfiles
-$ stow -v -R -t ~ $(ls -d */)
+$ stow .
 ```
 
 License
