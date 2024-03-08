@@ -1,4 +1,5 @@
 .git
+.config/nvim
 README.md
 initial-setup.sh
 installed-casks.txt
