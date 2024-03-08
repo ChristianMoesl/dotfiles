@@ -102,7 +102,7 @@ else
   export EDITOR='nvim'
 fi
 
-# speedup fzf with ripgrep 
+# speedup fzf with ripgrep
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 
 # Compilation flags
@@ -156,7 +156,7 @@ alias cat='bat --plain --theme=Nord'
 
 export BAT_THEME='Nord'
 
-# rebase all changes from latest origin/HEAD commit onwards interactivly
+# rebase all changes from latest origin/HEAD commit onwards interactively
 grchanges () {
   current_branch="$(git branch --show-current)"
   base_branch="$(git rev-parse --abbrev-ref origin/HEAD)"
@@ -210,10 +210,22 @@ greset() {
   git pull
 }
 
+# switch to different project in Workspace directory and open in editor
+pr() {
+  directory=$(rg --files --max-depth 2 ~/Workspace | xargs dirname | sort -u | fzf)
+  if [ "$?" -eq "0" ]; then
+    cd "$directory"
+    $EDITOR .
+  fi
+}
+
 unalias gpr
 # checkout a pull request with fuzzy search
 gpr() {
-  id=$(gh pr list --json number,title,headRefName,author --template '{{range .}}{{tablerow (printf "#%v" .number | autocolor "green") .title (.headRefName | color "cyan") (.author.login | color "yellow") .isDraft }}{{end}}' | fzf --ansi | cut -d ' ' -f 1 | cut -c 2-)
+  id=$(gh pr list \
+    --json number,title,headRefName,author \
+    --template '{{range .}}{{tablerow (printf "#%v" .number | autocolor "green") .title (.headRefName | color "cyan") (.author.login | color "yellow") .isDraft }}{{end}}' \
+    | fzf --ansi | cut -d ' ' -f 1 | cut -c 2-)
   [ -n "$id" ] && gh pr checkout "$id"
 }
 
