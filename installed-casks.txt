@@ -1,5 +1,4 @@
 1password
-discord
 docker
 logitech-options
 kitty
