@@ -7,6 +7,7 @@ gh
 gnupg
 htop
 imagemagick
+jq
 neovim
 node
 openssl
@@ -23,3 +24,4 @@ wget
 ykman
 youtube-dl
 zbar
+zsh-autosuggestions

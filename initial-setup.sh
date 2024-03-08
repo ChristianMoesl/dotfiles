@@ -7,16 +7,16 @@ export CI=1 # do not ask user for something
 zsh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 brew tap homebrew/cask-fonts
 
+# Create ZSH history file
+mkdir -p ~/.cache/zsh
+touch ~/.cache/zsh/history
+
 # Create Workspace and clone dotfiles repository
 mkdir ~/Workspace
 cd ~/Workspace
 
 git clone https://github.com/ChristianMoesl/dotfiles
 cd dotfiles
-
-# company install
-#git fetch origin
-#git checkout --track origin/emundo
 
 # Map all dotfiles into the home directory
 brew install stow
@@ -31,7 +31,6 @@ npm install --global yarn
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" || true
 
 # install OhMyZsh plugins
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
@@ -41,10 +40,6 @@ mv ~/.zshrc.pre-oh-my-zsh ~/.zshrc
 
 # Setup Kitty
 kitty +kitten themes --reload-in=all Catppuccin-Mocha
-
-# Install Nvim plugin manager
-sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 # Install python3 provider for neovim
 python3 -m pip install --user --upgrade pynvim
@@ -65,6 +60,11 @@ defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
 
 # install github cli extension to get default branch
 gh extension install daido1976/gh-default-branch
+
+# install catpuccin-Mocha theme for bat
+mkdir -p "$(bat --config-dir)/themes"
+wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Mocha.tmTheme
+bat cache --build
 
 echo "Everything is installed, but there is something left todo"
 echo "- import settings for iterm2 from ~/.config/iterm2"
