@@ -157,8 +157,10 @@ gpr() {
 }
 
 work() {
-
-  tmux new-session -s work
+  tmux new -s "work"
+  if [ "$?" -ne "0" ]; then
+    tmux attach -t work
+  fi
 }
 
 # Virtual environments for different languages
