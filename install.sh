@@ -16,8 +16,8 @@ stow .
 # Install all dependencies
 brew bundle
 
-# Install all the software
-xargs brew install < ~/.config/homebrew/leaves.txt
+# Install tmux package manager
+git clone https://github.com/tmux-plugins/tpm ~/.local/state/tmux/plugins/tpm
 
 # Install OhMyZsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" || true

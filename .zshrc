@@ -37,7 +37,7 @@ ZSH_THEME="robbyrussell"
 CASE_SENSITIVE="true"
 
 # Uncomment the following line to disable colors in ls.
-DISABLE_LS_COLORS="true"
+# DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
 DISABLE_AUTO_TITLE="true"
@@ -138,7 +138,7 @@ greset() {
 }
 
 # switch to different project in Workspace directory and open in editor
-pr() {
+sp() {
   directory=$(rg --files --max-depth 2 ~/Workspace | xargs dirname | sort -u | fzf)
   if [ "$?" -eq "0" ]; then
     cd "$directory"
@@ -154,6 +154,11 @@ gpr() {
     --template '{{range .}}{{tablerow (printf "#%v" .number | autocolor "green") .title (.headRefName | color "cyan") (.author.login | color "yellow") .isDraft }}{{end}}' \
     | fzf --ansi | cut -d ' ' -f 1 | cut -c 2-)
   [ -n "$id" ] && gh pr checkout "$id"
+}
+
+work() {
+
+  tmux new-session -s work
 }
 
 # Virtual environments for different languages
