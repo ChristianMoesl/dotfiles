@@ -1,3 +1,6 @@
+# Enable ZSH profiling
+# zmodload zsh/zprof
+
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
@@ -153,8 +156,11 @@ gpr() {
   [ -n "$id" ] && gh pr checkout "$id"
 }
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+# Virtual environments for different languages
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 eval "$(starship init zsh)"
+
+# Print startup profile
+# zprof

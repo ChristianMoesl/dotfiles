@@ -8,13 +8,18 @@ Manual steps to install dotfiles on a new system
 2. Download and install nerd font patched Fira Code font from [https://github.com/ryanoasis/nerd-fonts/releases](https://github.com/ryanoasis/nerd-fonts/releases)
 
 
-Usage
------
+#### Homebrew installation:
+```bash
+# Leaving a machine
+brew bundle dump
 
-Pull the repository, and then create the symbolic links using GNU
-stow.
+# Fresh installation
+brew bundle
+```
 
-```zsh
+#### Configure with Stow
+```bash
+# Create the symbolic links using GNU stow.
 $ git clone https://github.com/ChristianMoesl/dotfiles
 $ cd dotfiles
 $ stow .

@@ -5,7 +5,7 @@ set -euxo pipefail
 # Install brew and tap additional repositories
 export CI=1 # do not ask user for something
 zsh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-brew tap homebrew/cask-fonts
+brew install mas
 
 # Create Workspace and clone dotfiles repository
 mkdir ~/Workspace
@@ -13,9 +13,11 @@ git clone https://github.com/ChristianMoesl/dotfiles ~/Workspace/dotfiles
 cd ~/Workspace/dotfiles
 stow .
 
+# Install all dependencies
+brew bundle
+
 # Install all the software
-brew install --cask $(cat brew/.config/brew/installed-casks)
-brew install $(cat brew/.config/brew/installed-packages)
+xargs brew install < ~/.config/homebrew/leaves.txt
 
 # Install OhMyZsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" || true
@@ -53,5 +55,8 @@ defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
 
 # install github cli extension to get default branch
 gh extension install daido1976/gh-default-branch
+
+# Install SDK man
+curl -s "https://get.sdkman.io" | zsh
 
 echo "Everything is installed"
