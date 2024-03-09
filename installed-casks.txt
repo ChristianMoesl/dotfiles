@@ -1,7 +1,0 @@
-1password
-docker
-logitech-options
-kitty
-whatsapp
-slack
-google-cloud-sdk

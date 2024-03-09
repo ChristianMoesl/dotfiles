@@ -1,5 +1,7 @@
 ssh/.ssh/known_hosts
 
+Brewfile.lock.json
+
 .gnupg/*
 !.gnupg/gpg-agent.conf
 !.gnupg/gpg.conf

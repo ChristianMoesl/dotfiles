@@ -1,6 +1,8 @@
 .git
+.gitignore
+.gitmodules
 .config/nvim
+Brewfile
+Brewfile.lock.json
 README.md
-initial-setup.sh
-installed-casks.txt
-installed-packages.txt
+install.sh
