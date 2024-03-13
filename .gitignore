@@ -1,3 +1,5 @@
+.config/jgit
+
 ssh/.ssh/known_hosts
 
 Brewfile.lock.json
