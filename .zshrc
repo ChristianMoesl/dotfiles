@@ -139,11 +139,21 @@ greset() {
 
 # switch to different project in Workspace directory and open in editor
 sp() {
-  directory=$(rg --files --max-depth 2 ~/Workspace | xargs dirname | sort -u | fzf)
+  directory=$(rg --files --max-depth 2 ~/Workspace ~/rbmh | xargs dirname | sort -u | fzf)
   if [ "$?" -eq "0" ]; then
     cd "$directory"
     $EDITOR .
   fi
+}
+
+# (E)dit file in located in any workspace
+e() {
+  nvim $(rg --files ~/Workspace ~/rbmh | fzf)
+}
+
+# (E)dit (m)ultiple files in located in any workspace
+em() {
+  nvim -c "tab all" $(rg --files ~/Workspace ~/rbmh | fzf --multi)
 }
 
 unalias gpr
@@ -154,13 +164,6 @@ gpr() {
     --template '{{range .}}{{tablerow (printf "#%v" .number | autocolor "green") .title (.headRefName | color "cyan") (.author.login | color "yellow") .isDraft }}{{end}}' \
     | fzf --ansi | cut -d ' ' -f 1 | cut -c 2-)
   [ -n "$id" ] && gh pr checkout "$id"
-}
-
-work() {
-  tmux new -s "work"
-  if [ "$?" -ne "0" ]; then
-    tmux attach -t work
-  fi
 }
 
 # Virtual environments for different languages
