@@ -22,7 +22,7 @@ brew bundle
 # Create the symbolic links using GNU stow.
 $ git clone https://github.com/ChristianMoesl/dotfiles
 $ cd dotfiles
-$ stow .
+$ stow -t ~ .
 ```
 
 License
