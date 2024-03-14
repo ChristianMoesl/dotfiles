@@ -1,21 +1,18 @@
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='nvim'
+else
+fi
+export VISUAL="$EDITOR"
 
 #AWSume alias to source the AWSume script
 alias awsume="source \$(pyenv which awsume)"
 
-alias gcob='git branch | fzf | xargs git checkout'
-
-alias l='ls -lahG'
-alias ls='ls -G'
-alias la='ls -lAhG'
-alias ll='ls -lhG'
-alias lsa='ls -lahG'
-
-# rebase all changes from latest origin/HEAD commit onwards interactivly
-grchanges () {
-  current_branch="$(git branch --show-current)"
-  base_branch="$(git rev-parse --abbrev-ref origin/HEAD)"
-  head_commit="$(git merge-base $current_branch $base_branch)"
-  git rebase -i $head_commit
+# switch to default branch, clear garbage branches and pull from remote
+greset() {
+  git switch "$(gh default-branch show --name-only)"
+  gbgc
+  git pull
 }
 
 # push git branch to github and create draft pull request
@@ -27,13 +24,13 @@ gprc() {
 # add all changes and commit them
 gac() {
   git add --all
-  git commit -v --amend --no-edit
+  git commit -v
 }
 
 # add all changes, commit them and push
 gacp() {
   gac
-  git push -u --force-with-lease
+  git push -u
 }
 
 # add all changes, create a fixup commit and push
@@ -43,14 +40,14 @@ gafp() {
   git push -u
 }
 
-# mark github pull request as ready and add assignee's
+# mark github pull request as ready and add my team as assignee
 gprmr() {
   gh pr ready
   gh pr edit --add-assignee mteufner,jkanzler,apostolosrousalis,rubeninoto
 }
 
-# mark github pull request as ready and add assignee's including ABS only devs
-gprmrabs() {
+# mark github pull request as ready and add everyone as assignee
+gprmR() {
   gh pr ready
   gh pr edit --add-assignee mteufner,jkanzler,SebastianFrk,StefanMensik,LiamHiscox1997,apostolosrousalis,rubeninoto
 }

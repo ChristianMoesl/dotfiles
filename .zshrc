@@ -57,14 +57,6 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-# Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='nvim'
-else
-  export EDITOR='nvim'
-fi
-export VISUAL="$EDITOR"
-
 # for gpg sign with pinentry
 export GPG_TTY=$(tty)
 # use GPG for SSH authentication
@@ -83,27 +75,6 @@ alias cat='bat'
 
 alias gcob='git branch | fzf | xargs git checkout'
 
-# rebase all changes from latest origin/HEAD commit onwards interactively
-grchanges () {
-  current_branch="$(git branch --show-current)"
-  base_branch="$(git rev-parse --abbrev-ref origin/HEAD)"
-  head_commit="$(git merge-base $current_branch $base_branch)"
-  git rebase -i $head_commit
-}
-
-# push git branch to github and create draft pull request
-gprc() {
-  git push -u
-  gh pr create --draft --fill
-}
-
-# add all changes, commit them and push
-gacp() {
-  git add --all
-  git commit -v --amend --no-edit
-  git push -u --force-with-lease
-}
-
 unalias gsw
 # change branch with fzf
 gsw() {
@@ -111,30 +82,12 @@ gsw() {
   [ -n "$name" ] && git switch $name
 }
 
-# mark github pull request as ready and add assignee's
-gprmr() {
-  gh pr ready
-  gh pr edit --add-assignee PatrickSchuster,pablotp,mteufner,mh-it,StefanMensik
-}
-
-# garbage collect local branches
-gbgc() {
-  default_branch=$(gh default-branch show --name-only)
-  echo "remove merged branches"
-  git branch --merged $default_branch | grep -v "^[ *]*${default_branch}\$" | xargs git branch -d
-  echo "prune remote branches"
-  git remote prune origin
-  echo "remove branches with 'gone' remote"
-  git branch -v | grep "\[gone\]" | cut -c 3- | cut -d' ' -f1 | xargs git branch -D
-  echo "delete local branches without remote"
-  git for-each-ref --format '%(refname:short) %(upstream)' refs/heads | awk '{if (!$2) print $1;}' | xargs git branch -D
-}
-
-# switch to default branch, clear garbage branches and pull from remote
-greset() {
-  git switch "$(gh default-branch show --name-only)"
-  gbgc
-  git pull
+# rebase all changes from latest origin/HEAD commit onwards interactively
+grchanges () {
+  current_branch="$(git branch --show-current)"
+  base_branch="$(git rev-parse --abbrev-ref origin/HEAD)"
+  head_commit="$(git merge-base $current_branch $base_branch)"
+  git rebase -i $head_commit
 }
 
 # switch to different project in Workspace directory and open in editor
