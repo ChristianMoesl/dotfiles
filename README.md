@@ -25,6 +25,13 @@ $ cd dotfiles
 $ stow -t ~ .
 ```
 
+### MacOS Setup Guide
+
+1. Map cap lock key to ESC in system settings
+2. Enable CTRL+number shortcuts for Missing Control in system settings (keyboard)
+3. Enable "reduce motion" in accessibility settings
+4. Disable "Automatically rearrange Spaces ..." in Desktop & Dock
+
 License
 -------
 
