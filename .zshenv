@@ -9,6 +9,14 @@ export VISUAL="$EDITOR"
 #AWSume alias to source the AWSume script
 alias awsume="source \$(pyenv which awsume)"
 
+# rebase all changes from latest origin/HEAD commit onwards interactively
+grchanges () {
+  current_branch="$(git branch --show-current)"
+  base_branch="$(git rev-parse --abbrev-ref origin/HEAD)"
+  head_commit="$(git merge-base $current_branch $base_branch)"
+  git rebase -i $head_commit
+}
+
 # switch to default branch, clear garbage branches and pull from remote
 greset() {
   git switch "$(gh default-branch show --name-only)"

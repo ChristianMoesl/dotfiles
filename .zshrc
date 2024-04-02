@@ -1,6 +1,9 @@
 # Enable ZSH profiling
 # zmodload zsh/zprof
 
+export VOLTA_HOME="$HOME/.volta"
+
+export PATH="$VOLTA_HOME/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
@@ -82,13 +85,6 @@ gsw() {
   [ -n "$name" ] && git switch $name
 }
 
-# rebase all changes from latest origin/HEAD commit onwards interactively
-grchanges () {
-  current_branch="$(git branch --show-current)"
-  base_branch="$(git rev-parse --abbrev-ref origin/HEAD)"
-  head_commit="$(git merge-base $current_branch $base_branch)"
-  git rebase -i $head_commit
-}
 
 # switch to different project in Workspace directory and open in editor
 sp() {
