@@ -90,7 +90,7 @@ workspaces() {
 }
 
 projects() {
-  workspaces | xargs rg --files --max-depth 2 | xargs dirname | sort -u
+  workspaces | xargs rg --files --hidden --max-depth 2 | xargs dirname | sort -u
 }
 
 # (S)witch to different (p)roject in Workspace directory and open in editor
