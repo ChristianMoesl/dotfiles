@@ -81,34 +81,51 @@ alias gcob='git branch | fzf | xargs git checkout'
 unalias gsw
 # change branch with fzf
 gsw() {
-  name=$(git branch | fzf | cut -c 3-)
+  local name=$(git branch | fzf | cut -c 3-)
   [ -n "$name" ] && git switch $name
 }
 
+workspaces() {
+  echo $(ls -1df 2>/dev/null ~/Workspace ~/rbmh)
+}
 
-# switch to different project in Workspace directory and open in editor
+projects() {
+  workspaces | xargs rg --files --max-depth 2 | xargs dirname | sort -u
+}
+
+# (S)witch to different (p)roject in Workspace directory and open in editor
 sp() {
-  directory=$(rg --files --max-depth 2 ~/Workspace ~/rbmh | xargs dirname | sort -u | fzf)
+  local directory
+  directory=$(projects | fzf)
   if [ "$?" -eq "0" ]; then
     cd "$directory"
-    $EDITOR .
+    nvim .
   fi
 }
 
 # (E)dit file in located in any workspace
 e() {
-  nvim $(rg --files ~/Workspace ~/rbmh | fzf)
+  local file
+  file=$(workspaces | xargs rg --files | fzf)
+  if [ "$?" -eq "0" ]; then
+    echo "open $file"
+    nvim $file
+  fi
 }
 
 # (E)dit (m)ultiple files in located in any workspace
 em() {
-  nvim -c "tab all" $(rg --files ~/Workspace ~/rbmh | fzf --multi)
+  local files
+  files=$(workspaces | xargs rg --files | fzf --multi)
+  if [ "$?" -eq "0" ]; then
+    nvim -c "tab all" $files
+  fi
 }
 
 unalias gpr
 # checkout a pull request with fuzzy search
 gpr() {
-  id=$(gh pr list \
+  local id=$(gh pr list \
     --json number,title,headRefName,author \
     --template '{{range .}}{{tablerow (printf "#%v" .number | autocolor "green") .title (.headRefName | color "cyan") (.author.login | color "yellow") .isDraft }}{{end}}' \
     | fzf --ansi | cut -d ' ' -f 1 | cut -c 2-)
