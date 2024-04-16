@@ -13,9 +13,9 @@ alias awsume="source \$(pyenv which awsume)"
 
 # rebase all changes from latest origin/HEAD commit onwards interactively
 grchanges () {
-  current_branch="$(git branch --show-current)"
-  base_branch="$(git rev-parse --abbrev-ref origin/HEAD)"
-  head_commit="$(git merge-base $current_branch $base_branch)"
+  local current_branch="$(git branch --show-current)"
+  local base_branch="$(git rev-parse --abbrev-ref origin/HEAD)"
+  local head_commit="$(git merge-base $current_branch $base_branch)"
   git rebase -i $head_commit
 }
 
@@ -65,7 +65,7 @@ gprmR() {
 
 # garbage collect merged branches
 gbgc() {
-  default_branch=$(gh default-branch show --name-only)
+  local default_branch=$(gh default-branch show --name-only)
   git switch $default_branch
   echo "remove merged branches"
   git branch --merged $default_branch | grep -v "^[ *]*${default_branch}\$" | xargs git branch -d
@@ -76,7 +76,7 @@ gbgc() {
 
 # garbage collect merged/local branches without remote
 greset() {
-  default_branch=$(gh default-branch show --name-only)
+  local default_branch=$(gh default-branch show --name-only)
   git switch $default_branch
   echo "remove merged branches"
   git branch --merged $default_branch | grep -v "^[ *]*${default_branch}\$" | xargs git branch -d
