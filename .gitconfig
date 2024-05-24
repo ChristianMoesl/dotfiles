@@ -13,15 +13,23 @@
 [diff]
 	tool = vimdiff
 [merge]
-	tool = vimdiff
+	tool = fugitive
+	; conflictStyle = diff3
 [difftool]
 	prompt = false
 [mergetool]
 	prompt = false
-[mergetool "vimdiff"]
-	path = nvim
+; [mergetool "vimdiff"]
+; 	path = nvim
+; [difftool "vimdiff"]
+; 	path = nvim
+
 [difftool "vimdiff"]
-	path = nvim
+    cmd = vimdiff \"$LOCAL\" \"$REMOTE\"
+[mergetool "vimdiff"]
+    cmd = vimdiff \"$LOCAL\" \"$MERGED\" \"$REMOTE\"
+[mergetool "fugitive"]
+	cmd = nvim -d -c \"wincmd l\" \"$LOCAL\" \"$MERGED\" \"$REMOTE\"
 [filter "lfs"]
 	process = git-lfs filter-process
 	required = true
