@@ -27,11 +27,12 @@ source ~/.config/zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh
 fpath=(~/.config/zsh/completions $fpath)
 
 # Edit command line in neovim with ctrl-e
-autoload edit-command-line; zle -N edit-command-line
+autoload edit-command-line
+zle -N edit-command-line
 bindkey '^e' edit-command-line
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/chris/.oh-my-zsh"
+export ZSH="/Users/Christian.Moesl/.oh-my-zsh"
 
 # Theme will be overwritten by starship anyway
 ZSH_THEME="robbyrussell"
@@ -51,6 +52,7 @@ DISABLE_AUTO_TITLE="true"
 plugins=(
   git
   macos
+  kubectl
   zsh-autosuggestions
   zsh-syntax-highlighting
   fzf
@@ -86,7 +88,7 @@ gsw() {
 }
 
 workspaces() {
-  echo $(ls -1df 2>/dev/null ~/Workspace ~/rbmh)
+  echo $(ls -1df ~/Workspace ~/rbmh 2>/dev/null)
 }
 
 projects() {
@@ -127,8 +129,8 @@ unalias gpr
 gpr() {
   local id=$(gh pr list \
     --json number,title,headRefName,author \
-    --template '{{range .}}{{tablerow (printf "#%v" .number | autocolor "green") .title (.headRefName | color "cyan") (.author.login | color "yellow") .isDraft }}{{end}}' \
-    | fzf --ansi | cut -d ' ' -f 1 | cut -c 2-)
+    --template '{{range .}}{{tablerow (printf "#%v" .number | autocolor "green") .title (.headRefName | color "cyan") (.author.login | color "yellow") .isDraft }}{{end}}' |
+    fzf --ansi | cut -d ' ' -f 1 | cut -c 2-)
   [ -n "$id" ] && gh pr checkout "$id"
 }
 
