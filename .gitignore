@@ -1,6 +1,9 @@
 .config/jgit
+.config/AWS VPN Client
+.config/AWSVPNClient
+.config/vale
 
-ssh/.ssh/known_hosts
+.ssh/known_hosts
 
 Brewfile.lock.json
 
@@ -8,3 +11,5 @@ Brewfile.lock.json
 !.gnupg/gpg-agent.conf
 !.gnupg/gpg.conf
 !.gnupg/sshcontrol
+
+
