@@ -31,6 +31,7 @@ $ stow -t ~ .
 2. Enable CTRL+number shortcuts for Missing Control in system settings (keyboard)
 3. Enable "reduce motion" in accessibility settings
 4. Disable "Automatically rearrange Spaces ..." in Desktop & Dock
+5. Configure OpenAI key in ~/.config/nvim/.chat-gpt
 
 License
 -------
