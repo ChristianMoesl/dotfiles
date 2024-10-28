@@ -62,7 +62,7 @@ gprmr() {
 # mark github pull request as ready and add everyone as assignee
 gprmR() {
 	gh pr ready
-	gh pr edit --add-assignee mteufner,jkanzler,SebastianFrk,StefanMensik,LiamHiscox1997,apostolosrousalis,rubeninoto
+	gh pr edit --add-assignee mteufner,jkanzler,SebastianFrk,LiamHiscox1997,apostolosrousalis,rubeninoto
 }
 
 # garbage collect merged branches

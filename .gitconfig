@@ -1,6 +1,6 @@
 [user]
 	name = Christian Mösl
-	email = christian.moesl@live.at
+	email = christian.moesl@gofore.com
   # signingkey = 30C2947A
   # 34C020723C521F4A! 
   # for university: signingkey = 71F860C6B8FA1C91\! 
@@ -48,3 +48,5 @@
 	enabled = true
 [branch]
 	sort = -committerdate
+[advice]
+	skippedCherryPicks = false
