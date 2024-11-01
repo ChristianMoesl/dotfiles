@@ -32,7 +32,7 @@ zle -N edit-command-line
 bindkey '^e' edit-command-line
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/Christian.Moesl/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Theme will be overwritten by starship anyway
 ZSH_THEME="robbyrussell"
