@@ -2,6 +2,7 @@
 .config/AWS VPN Client
 .config/AWSVPNClient
 .config/vale
+.config/gcloud
 
 .ssh/known_hosts
 
