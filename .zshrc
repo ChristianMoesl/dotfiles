@@ -1,9 +1,14 @@
 # Enable ZSH profiling
 # zmodload zsh/zprof
 
-export VOLTA_HOME="$HOME/.volta"
+# fnm
+FNM_PATH="$HOME/Library/Application Support/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="$HOME/Library/Application Support/fnm:$PATH"
+  eval "$(fnm env)"
+fi
+eval "$(fnm env --use-on-cd --resolve-engines)"
 
-export PATH="$VOLTA_HOME/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
@@ -142,3 +147,9 @@ eval "$(starship init zsh)"
 
 # Print startup profile
 # zprof
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/Christian.Moesl/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/Christian.Moesl/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/Christian.Moesl/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/Christian.Moesl/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
