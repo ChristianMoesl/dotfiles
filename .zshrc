@@ -1,14 +1,6 @@
 # Enable ZSH profiling
 # zmodload zsh/zprof
 
-# fnm
-FNM_PATH="$HOME/Library/Application Support/fnm"
-if [ -d "$FNM_PATH" ]; then
-  export PATH="$HOME/Library/Application Support/fnm:$PATH"
-  eval "$(fnm env)"
-fi
-eval "$(fnm env --use-on-cd --resolve-engines)"
-
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
@@ -147,11 +139,18 @@ export SDKMAN_DIR="$HOME/.sdkman"
 
 eval "$(starship init zsh)"
 
+eval "$(fnm env --use-on-cd --shell zsh)"
+
+# pnpm
+export PNPM_HOME="/Users/Christian.Moesl/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+[[ -s ~/.config/.work-setup.sh ]] && source ~/.config/.work-setup.sh
+
 # Print startup profile
 # zprof
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/Christian.Moesl/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/Christian.Moesl/Downloads/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/Christian.Moesl/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/Christian.Moesl/Downloads/google-cloud-sdk/completion.zsh.inc'; fi

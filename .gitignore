@@ -3,6 +3,8 @@
 .config/AWSVPNClient
 .config/vale
 .config/gcloud
+.config/wireshark
+.config/github-copilot
 
 .ssh/known_hosts
 

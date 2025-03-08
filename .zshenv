@@ -1,6 +1,6 @@
 . "$HOME/.cargo/env"
 
-export VALE_CONFIG_PATH="$HOME/.config/vale/.vale.ini"
+source "$HOME/.secrets.sh"
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
@@ -55,21 +55,9 @@ gafp() {
 
 # mark github pull request as ready and add everyone as assignee
 gprmr() {
-	~/Workspace/abs-scripts/src/bash/make-pull-reqeuest-ready.sh
-	#
-	# local team_members="mteufner,ChristianMoesl,jkanzler,SebastianFrk,LiamHiscox1997,apostolosrousalis,rubeninoto"
-	# local myself=$(gh api user -q '.login')
-	#
-	# # Remove myself from team members list
-	# local team_colleagues=$(echo "$team_members" | sed "s/\b${myself}\b,//;s/,${myself}//;s/^${myself}$//")
-	#
-	# # Remove users that we don't want to assign as selected reviewer
-	# local potential_reviewers=$(echo "$team_colleagues" | sed "s/\brubeninoto\b,//;s/,rubeninoto//;s/^rubeninoto$//")
-	# local selected_reviewer=$(echo "$potential_reviewers" | tr ',' '\n' | shuf -n 1)
-	#
-	# gh pr ready
-	# gh pr edit --add-assignee "$team_colleagues"
-	# gh pr edit --add-reviewer "$selected_reviewer"
+	gh pr ready
+	gh pr edit --add-assignee "rubeninoto"
+	gh pr edit --add-reviewer "Simon-Hayden-Dev"
 }
 
 # garbage collect merged branches
