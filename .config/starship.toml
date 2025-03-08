@@ -29,7 +29,9 @@ palette = "catppuccin_mocha"
 # [deno]
 # format = "via [$symbol]($style)"
 #
-# [dotnet]
+# Remove the dotnet detection since it's kind of bugged and will show on some repos
+[dotnet]
+format = ""
 # format = "[$symbol(🎯 $tfm )]($style)"
 #
 # [elixir]
