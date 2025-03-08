@@ -14,6 +14,8 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 
+export DOCKER_DEFAULT_PLATFORM=linux/arm64
+
 # Configuration before oh-my-zsh is initialized
 export FZF_BASE="/opt/homebrew/opt/fzf"
 # speedup fzf with ripgrep
