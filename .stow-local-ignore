@@ -2,6 +2,7 @@
 .gitignore
 .gitmodules
 .config/nvim
+.ssh/known_hosts
 Brewfile
 Brewfile.lock.json
 README.md
