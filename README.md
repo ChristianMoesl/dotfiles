@@ -31,10 +31,11 @@ $ stow -t ~ .
 ### MacOS Setup Guide
 
 1. Map cap lock key to ESC in system settings
-2. Enable CTRL+number shortcuts for Missing Control in system settings (keyboard)
-3. Enable "reduce motion" in accessibility settings
-4. Disable "Automatically rearrange Spaces ..." in Desktop & Dock
-5. Configure OpenAI key in ~/.config/nvim/.chat-gpt
+1. Enable CTRL+number shortcuts for Missing Control in system settings (keyboard)
+1. Disable CTRL+Space shortcut for "previous input source" in system settings (keyboard)
+1. Enable "reduce motion" in accessibility settings
+1. Disable "Automatically rearrange Spaces ..." in Desktop & Dock
+1. Configure OpenAI key in ~/.config/nvim/.chat-gpt
 
 ## License
 
