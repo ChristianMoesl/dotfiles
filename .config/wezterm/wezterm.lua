@@ -7,18 +7,23 @@ config.font = wezterm.font({ family = "FiraCode Nerd Font Mono", scale = 1.2 })
 config.scrollback_lines = 10000
 -- config.hide_tab_bar_if_only_one_tab = true
 
+config.disable_default_key_bindings = true
+
+config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1000 }
 config.keys = {
-	-- Create a new workspace with a random name and switch to it
-	{ key = "i", mods = "CTRL|SHIFT", action = wezterm.action.SwitchToWorkspace },
-	-- Show the launcher in fuzzy selection mode and have it list all workspaces
-	-- and allow activating one.
-	{
-		key = "9",
-		mods = "ALT",
-		action = wezterm.action.ShowLauncherArgs({
-			flags = "FUZZY|WORKSPACES",
-		}),
-	},
+	{ key = "1", mods = "SUPER", action = wezterm.action.ActivateTab(0) },
+	{ key = "2", mods = "SUPER", action = wezterm.action.ActivateTab(1) },
+	{ key = "3", mods = "SUPER", action = wezterm.action.ActivateTab(2) },
+	{ key = "4", mods = "SUPER", action = wezterm.action.ActivateTab(3) },
+	{ key = "5", mods = "SUPER", action = wezterm.action.ActivateTab(4) },
+	{ key = "6", mods = "SUPER", action = wezterm.action.ActivateTab(5) },
+	{ key = "7", mods = "SUPER", action = wezterm.action.ActivateTab(6) },
+	{ key = "8", mods = "SUPER", action = wezterm.action.ActivateTab(7) },
+	{ key = "9", mods = "SUPER", action = wezterm.action.ActivateTab(8) },
+	{ key = "w", mods = "SUPER", action = wezterm.action.CloseCurrentTab({ confirm = true }) },
+	{ key = "t", mods = "SUPER", action = wezterm.action.SpawnTab("CurrentPaneDomain") },
+	{ key = "v", mods = "SUPER", action = wezterm.action.PasteFrom("Clipboard") },
+	{ key = "c", mods = "SUPER", action = wezterm.action.CopyTo("Clipboard") },
 }
 
 -- then finally apply the plugin
