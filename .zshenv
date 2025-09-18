@@ -1,5 +1,7 @@
 . "$HOME/.cargo/env"
 
+export HUSKY=0
+
 source "$HOME/.secrets.sh"
 
 # Preferred editor for local and remote sessions
@@ -34,6 +36,12 @@ gprc() {
 	gh pr create --draft --fill
 }
 
+# push git branch to github and create ready pull request
+gprr() {
+	git push -u
+	gh pr create --fill
+}
+
 # add all changes and commit them
 gac() {
 	git add --all
@@ -56,8 +64,6 @@ gafp() {
 # mark github pull request as ready and add everyone as assignee
 gprmr() {
 	gh pr ready
-	gh pr edit --add-assignee "rubeninoto"
-	gh pr edit --add-reviewer "Simon-Hayden-Dev"
 }
 
 # garbage collect merged branches
