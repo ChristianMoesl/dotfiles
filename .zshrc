@@ -149,7 +149,7 @@ case ":$PATH:" in
 esac
 # pnpm end
 
-[[ -s ~/.config/.work-setup.sh ]] && source ~/.config/.work-setup.sh
+[[ -s ~/.work-setup.sh ]] && source ~/.work-setup.sh
 
 # Print startup profile
 # zprof
