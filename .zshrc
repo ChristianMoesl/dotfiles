@@ -3,13 +3,25 @@
 
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="/opt/homebrew/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 
-export DOCKER_DEFAULT_PLATFORM=linux/arm64
+# Common config
+[[ -f ~/.zshrc.common ]] && source ~/.zshrc.common
+
+# OS-specific config
+case "$(uname -s)" in
+  Darwin)
+    [[ -f ~/.zshrc.darwin ]] && source ~/.zshrc.darwin
+    ;;
+  Linux)
+    [[ -f ~/.zshrc.linux ]] && source ~/.zshrc.linux
+    ;;
+esac
+
+# Machine-specific/private config, not synced
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 
 # Configuration before oh-my-zsh is initialized
-export FZF_BASE="/opt/homebrew/opt/fzf"
 # speedup fzf with ripgrep
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 export FZF_DEFAULT_OPTS=" \
@@ -140,14 +152,6 @@ export SDKMAN_DIR="$HOME/.sdkman"
 eval "$(starship init zsh)"
 
 eval "$(fnm env --use-on-cd --shell zsh)"
-
-# pnpm
-export PNPM_HOME="/Users/Christian.Moesl/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
 
 [[ -s ~/.work-setup.sh ]] && source ~/.work-setup.sh
 

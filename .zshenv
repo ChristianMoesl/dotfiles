@@ -1,8 +1,7 @@
-. "$HOME/.cargo/env"
-
 export HUSKY=0
 
-source "$HOME/.secrets.sh"
+[[ -s "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
+[[ -s "$HOME/.secrets.sh" ]] && source "$HOME/.secrets.sh"
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then

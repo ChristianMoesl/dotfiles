@@ -1,0 +1,11 @@
+# Ubuntu/Debian bat package uses batcat
+if command -v batcat >/dev/null 2>&1 && ! command -v bat >/dev/null 2>&1; then
+  alias bat='batcat'
+fi
+
+# fnm
+FNM_PATH="$HOME/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="$FNM_PATH:$PATH"
+  eval "$(fnm env --shell zsh)"
+fi

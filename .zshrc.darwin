@@ -1,0 +1,21 @@
+# Homebrew paths
+if [[ -d /opt/homebrew/bin ]]; then
+  export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+elif [[ -d /usr/local/bin ]]; then
+  export PATH="/usr/local/bin:$PATH"
+fi
+
+# pnpm
+export PNPM_HOME="/Users/Christian.Moesl/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+export DOCKER_DEFAULT_PLATFORM=linux/arm64
+
+# Configuration before oh-my-zsh is initialized
+export FZF_BASE="/opt/homebrew/opt/fzf"
+
+export PATH="/opt/homebrew/bin:$PATH"
