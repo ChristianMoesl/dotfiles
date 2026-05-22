@@ -158,3 +158,11 @@ eval "$(fnm env --use-on-cd --shell zsh)"
 # Print startup profile
 # zprof
 
+
+# pnpm
+export PNPM_HOME="/home/chris/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
+# pnpm end
