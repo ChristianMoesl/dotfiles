@@ -13,12 +13,12 @@ if [[ -n "$WSL_DISTRO_NAME" ]]; then
   [[ -r ~/.zshrc.windows ]] && source ~/.zshrc.windows
 else
   case "$(uname -s)" in
-    Linux)
-      [[ -r ~/.zshrc.linux ]] && source ~/.zshrc.linux
-      ;;
-    Darwin)
-      [[ -r ~/.zshrc.macos ]] && source ~/.zshrc.macos
-      ;;
+  Linux)
+    [[ -r ~/.zshrc.linux ]] && source ~/.zshrc.linux
+    ;;
+  Darwin)
+    [[ -r ~/.zshrc.macos ]] && source ~/.zshrc.macos
+    ;;
   esac
 fi
 
@@ -103,7 +103,7 @@ gsw() {
 }
 
 workspaces() {
-  echo $(ls -1d ~/workspace ~/Workspace ~/rbmh 2>/dev/null)
+  echo $(ls -1d "$HOME/workspace" "$HOME/Workspace" "$HOME/rbmh" 2>/dev/null)
 }
 
 projects() {
@@ -113,7 +113,13 @@ projects() {
 # (S)witch to different (p)roject in Workspace directory and open in editor
 sp() {
   local directory
-  directory=$(projects | fzf)
+  directory=$(
+    projects |
+      awk -v home="$HOME" '{ display=$0; sub("^" home, "~", display); print display "\t" $0 }' |
+      fzf --delimiter='\t' --with-nth=1 |
+      cut -f2-
+  )
+
   if [ "$?" -eq "0" ]; then
     cd "$directory"
     nvim .
@@ -162,11 +168,10 @@ eval "$(fnm env --use-on-cd --shell zsh)"
 # Print startup profile
 # zprof
 
-
 # pnpm
 export PNPM_HOME="/home/chris/.local/share/pnpm"
 case ":$PATH:" in
-  *":$PNPM_HOME/bin:"*) ;;
-  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+*":$PNPM_HOME/bin:"*) ;;
+*) export PATH="$PNPM_HOME/bin:$PATH" ;;
 esac
 # pnpm end
