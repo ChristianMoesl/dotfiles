@@ -1,0 +1,26 @@
+# Ghostty configuration
+# Docs: https://ghostty.org/docs/config
+
+# Catppuccin Mocha. If your Ghostty build does not include this theme name,
+# run `ghostty +list-themes | grep -i catppuccin` and replace it with the
+# exact listed name.
+theme = Catppuccin Mocha
+
+# Keep the terminal font close to Ghostty's default/previous local setup.
+font-family = JetBrainsMono Nerd Font
+# font-size intentionally omitted; Ghostty will use its default size.
+
+# Keep the window chrome compact. Since tmux owns tabs/status, hide Ghostty's
+# tab bar and use minimal window chrome on each platform.
+window-show-tab-bar = never
+# Linux/GTK: use the window manager's simpler titlebar instead of Ghostty's full GTK titlebar.
+gtk-titlebar = false
+# macOS: hide the titlebar while keeping the normal rounded window frame.
+macos-titlebar-style = hidden
+
+# Make copied/pasted text and URLs feel natural on macOS/Linux.
+copy-on-select = clipboard
+confirm-close-surface = false
+
+# Give tmux/pi/Neovim accurate terminal behavior.
+term = xterm-ghostty
