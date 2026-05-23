@@ -29,9 +29,10 @@ fi
 # speedup fzf with ripgrep
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 export FZF_DEFAULT_OPTS=" \
---color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
---color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
---color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
+--color=bg:#1e1e2e,bg+:#313244,gutter:#1e1e2e,selected-bg:#45475a \
+--color=fg:#cdd6f4,fg+:#cdd6f4,hl:#f38ba8,hl+:#f38ba8 \
+--color=header:#f38ba8,info:#cba6f7,prompt:#cba6f7,pointer:#f5e0dc \
+--color=marker:#b4befe,spinner:#f5e0dc,border:#313244,label:#cdd6f4"
 
 # Configure Catppuccin for zsh-syntax-highlighting
 source ~/.config/zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh
