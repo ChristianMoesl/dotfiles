@@ -99,7 +99,7 @@ gsw() {
 }
 
 workspaces() {
-  echo $(ls -1df ~/Workspace ~/rbmh 2>/dev/null)
+  echo $(ls -1d ~/workspace ~/Workspace ~/rbmh 2>/dev/null)
 }
 
 projects() {
