@@ -15,4 +15,4 @@ Brewfile.lock.json
 !.gnupg/gpg.conf
 !.gnupg/sshcontrol
 
-
+!.config/gh/hosts.yml
