@@ -1,0 +1,22 @@
+
+export PATH="$HOME/.pnpm-global/bin:$PATH"
+
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+eval "$($(brew --prefix)/bin/brew shellenv)"
+
+# # 1. Socket Pfad definieren
+export SSH_AUTH_SOCK=$HOME/.ssh/agent.sock
+
+# 2. Funktionstest: Versuche Keys zu lesen.
+# Wenn das fehlschlägt (Exit Code != 0), ist die Bridge kaputt oder nicht da.
+ssh-add -l > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+    # Aufräumen: Alte Prozesse und Sockets töten
+    ps -ef | grep "socat UNIX-LISTEN:$SSH_AUTH_SOCK" | grep -v grep | awk '{print $2}' | xargs -r kill
+    rm -f "$SSH_AUTH_SOCK"
+
+    # Neustart: Bridge neu aufbauen
+    (setsid socat UNIX-LISTEN:$SSH_AUTH_SOCK,fork,mode=600,unlink-early EXEC:"npiperelay.exe -ei -s //./pipe/openssh-ssh-agent",nofork &) >/dev/null 2>&1
+fi
+
+
