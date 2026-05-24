@@ -79,10 +79,10 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 # for gpg sign with pinentry
-export GPG_TTY=$(tty)
+# export GPG_TTY=$(tty)
 # use GPG for SSH authentication
-export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
-gpgconf --launch gpg-agent
+# export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+# gpgconf --launch gpg-agent
 
 # Custom aliases and functions
 

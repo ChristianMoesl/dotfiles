@@ -9,3 +9,5 @@ if [ -d "$FNM_PATH" ]; then
   export PATH="$FNM_PATH:$PATH"
   eval "$(fnm env --shell zsh)"
 fi
+
+export SSH_AUTH_SOCK=$HOME/.1password/agent.sock
