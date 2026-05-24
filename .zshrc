@@ -9,14 +9,18 @@ export PATH="$HOME/go/bin:$PATH"
 [[ -f ~/.zshrc.common ]] && source ~/.zshrc.common
 
 # OS-specific config
-case "$(uname -s)" in
-  Darwin)
-    [[ -f ~/.zshrc.darwin ]] && source ~/.zshrc.darwin
-    ;;
-  Linux)
-    [[ -f ~/.zshrc.linux ]] && source ~/.zshrc.linux
-    ;;
-esac
+if [[ -n "$WSL_DISTRO_NAME" ]]; then
+  [[ -r ~/.zshrc.windows ]] && source ~/.zshrc.windows
+else
+  case "$(uname -s)" in
+    Linux)
+      [[ -r ~/.zshrc.linux ]] && source ~/.zshrc.linux
+      ;;
+    Darwin)
+      [[ -r ~/.zshrc.macos ]] && source ~/.zshrc.macos
+      ;;
+  esac
+fi
 
 # Machine-specific/private config, not synced
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
