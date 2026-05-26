@@ -5,6 +5,11 @@
 .config/gcloud
 .config/wireshark
 .config/github-copilot
+.config/opencode
+.config/htop
+.config/btop
+.config/cagent
+.config/configstore
 
 .ssh/known_hosts
 .ssh/ansible-infra.pub
