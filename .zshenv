@@ -65,6 +65,26 @@ gprmr() {
 	gh pr ready
 }
 
+gpma() {
+  PR_NUM=$(gh pr view --json number -q .number) && \
+  gh pr merge --auto --squash \
+    --subject "$(gh pr view --json title -q .title) (#$PR_NUM)" \
+    --body "$(gh pr view --json body -q .body)"
+}
+
+gla() {
+  gh pr edit --add-label "aa:async review"
+}
+gln() {
+  gh pr edit --add-label "aa:needs no review"
+}
+gle() {
+  gh pr edit --add-label "aa:emergency fix"
+}
+glp() {
+  gh pr edit --add-label "aa:preapproved"
+}
+
 # garbage collect merged branches
 gbgc() {
 	local default_branch=$(gh default-branch show --name-only)

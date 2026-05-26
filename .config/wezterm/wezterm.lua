@@ -10,6 +10,13 @@ config.scrollback_lines = 10000
 config.disable_default_key_bindings = true
 
 config.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1000 }
+config.mouse_bindings = {
+	{
+		event = { Up = { streak = 1, button = "Left" } },
+		mods = "CTRL",
+		action = wezterm.action.OpenLinkAtMouseCursor,
+	},
+}
 config.keys = {
 	{ key = "1", mods = "SUPER", action = wezterm.action.ActivateTab(0) },
 	{ key = "2", mods = "SUPER", action = wezterm.action.ActivateTab(1) },
