@@ -1,9 +1,12 @@
 # Enable ZSH profiling
 # zmodload zsh/zprof
 
+setopt HIST_IGNORE_SPACE
+
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
+export PATH="$HOME/.pi/agent/bin:$PATH"
 
 # Common config
 [[ -f ~/.zshrc.common ]] && source ~/.zshrc.common
@@ -107,8 +110,30 @@ workspaces() {
   echo $(ls -1d "$HOME/workspace" "$HOME/Workspace" "$HOME/rbmh" 2>/dev/null)
 }
 
+openCodeWorkspace() {
+  echo $(ls -1df ~/OpenCode 2>/dev/null)
+}
+
 projects() {
   workspaces | xargs rg --files --hidden --max-depth 2 --null | xargs -0 dirname | sort -u
+}
+
+openCodeProjects() {
+  openCodeWorkspace | xargs rg --files --hidden --max-depth 2 --null | xargs -0 dirname | sort -u
+}
+
+worktrees() {
+  git worktree list | awk '{print $1}'
+}
+
+# (S)witch to different (p)roject in Workspace directory and open in editor
+so() {
+  local directory
+  directory=$(openCodeProjects | fzf)
+  if [ "$?" -eq "0" ]; then
+    cd "$directory"
+    nvim .
+  fi
 }
 
 # (S)witch to different (p)roject in Workspace directory and open in editor
@@ -121,6 +146,16 @@ sp() {
       cut -f2-
   )
 
+  if [ "$?" -eq "0" ]; then
+    cd "$directory"
+    nvim .
+  fi
+}
+
+# (S)witch to different (p)roject in Workspace directory and open in editor
+sw() {
+  local directory
+  directory=$(worktrees | fzf)
   if [ "$?" -eq "0" ]; then
     cd "$directory"
     nvim .
