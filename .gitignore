@@ -10,6 +10,8 @@
 .config/btop
 .config/cagent
 .config/configstore
+.config/radar
+.config/nvim
 
 .ssh/known_hosts
 .ssh/ansible-infra.pub
