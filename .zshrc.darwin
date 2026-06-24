@@ -1,3 +1,5 @@
+export HOMEBREW_CASK_OPTS="--appdir=~/Applications"
+
 # Homebrew paths
 if [[ -d /opt/homebrew/bin ]]; then
   export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
@@ -17,5 +19,3 @@ export DOCKER_DEFAULT_PLATFORM=linux/arm64
 
 # Configuration before oh-my-zsh is initialized
 export FZF_BASE="/opt/homebrew/opt/fzf"
-
-export PATH="/opt/homebrew/bin:$PATH"
