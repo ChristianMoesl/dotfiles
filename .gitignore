@@ -12,6 +12,8 @@
 .config/configstore
 .config/radar
 .config/nvim
+.config/datadog-helper
+.config/jira-helper
 
 .ssh/known_hosts
 .ssh/ansible-infra.pub
