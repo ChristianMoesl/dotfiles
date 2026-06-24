@@ -3,10 +3,18 @@
 
 setopt HIST_IGNORE_SPACE
 
-export PATH="$HOME/.cargo/bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/go/bin:$PATH"
-export PATH="$HOME/.pi/agent/bin:$PATH"
+path_prepend() {
+  [[ -n "$1" && -d "$1" ]] || return
+  case ":$PATH:" in
+    *":$1:"*) ;;
+    *) export PATH="$1:$PATH" ;;
+  esac
+}
+
+path_prepend "$HOME/.cargo/bin"
+path_prepend "$HOME/.local/bin"
+path_prepend "$HOME/go/bin"
+path_prepend "$HOME/.pi/agent/bin"
 
 # Common config
 [[ -f ~/.zshrc.common ]] && source ~/.zshrc.common
@@ -20,7 +28,7 @@ else
     [[ -r ~/.zshrc.linux ]] && source ~/.zshrc.linux
     ;;
   Darwin)
-    [[ -r ~/.zshrc.macos ]] && source ~/.zshrc.macos
+    [[ -r ~/.zshrc.darwin ]] && source ~/.zshrc.darwin
     ;;
   esac
 fi
@@ -38,12 +46,12 @@ export FZF_DEFAULT_OPTS=" \
 --color=marker:#b4befe,spinner:#f5e0dc,border:#313244,label:#cdd6f4"
 
 # Configure Catppuccin for zsh-syntax-highlighting
-source ~/.config/zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh
+[[ -r "$HOME/.config/zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh" ]] && source "$HOME/.config/zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh"
 
 # Setup ZSH builtins
 
 # Add path for custom completions
-fpath=(~/.config/zsh/completions $fpath)
+fpath=("$HOME/.config/zsh/completions" $fpath)
 
 # Edit command line in neovim with ctrl-e
 autoload edit-command-line
@@ -70,14 +78,15 @@ DISABLE_AUTO_TITLE="true"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
-  macos
   kubectl
   zsh-autosuggestions
   zsh-syntax-highlighting
   fzf
 )
 
-source $ZSH/oh-my-zsh.sh
+[[ "$(uname -s)" == Darwin ]] && plugins+=(macos)
+
+[[ -r "$ZSH/oh-my-zsh.sh" ]] && source "$ZSH/oh-my-zsh.sh"
 
 # User configuration
 
@@ -99,11 +108,11 @@ alias cat='bat'
 
 alias gcob='git branch | fzf | xargs git checkout'
 
-unalias gsw
+unalias gsw 2>/dev/null || true
 # change branch with fzf
 gsw() {
   local name=$(git branch | fzf | cut -c 3-)
-  [ -n "$name" ] && git switch $name
+  [ -n "$name" ] && git switch "$name"
 }
 
 workspaces() {
@@ -181,7 +190,7 @@ em() {
   fi
 }
 
-unalias gpr
+unalias gpr 2>/dev/null || true
 # checkout a pull request with fuzzy search
 gpr() {
   local id=$(gh pr list \
@@ -197,7 +206,7 @@ export SDKMAN_DIR="$HOME/.sdkman"
 
 eval "$(starship init zsh)"
 
-eval "$(fnm env --use-on-cd --shell zsh)"
+command -v fnm >/dev/null 2>&1 && eval "$(fnm env --use-on-cd --shell zsh)"
 
 [[ -s ~/.work-setup.sh ]] && source ~/.work-setup.sh
 
@@ -205,9 +214,12 @@ eval "$(fnm env --use-on-cd --shell zsh)"
 # zprof
 
 # pnpm
-export PNPM_HOME="/home/chris/.local/share/pnpm"
-case ":$PATH:" in
-*":$PNPM_HOME/bin:"*) ;;
-*) export PATH="$PNPM_HOME/bin:$PATH" ;;
-esac
+if [[ -z "$PNPM_HOME" ]]; then
+  case "$(uname -s)" in
+    Darwin) export PNPM_HOME="$HOME/Library/pnpm" ;;
+    *) export PNPM_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/pnpm" ;;
+  esac
+fi
+path_prepend "$PNPM_HOME/bin"
+path_prepend "$PNPM_HOME"
 # pnpm end
