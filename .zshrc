@@ -116,7 +116,14 @@ gsw() {
 }
 
 workspaces() {
-  echo $(ls -1d "$HOME/workspace" "$HOME/Workspace" "$HOME/rbmh" 2>/dev/null)
+  local directory
+
+  for directory in \
+    "$HOME/workspace" \
+    "$HOME/Workspace"
+  do
+    [[ -d "$directory" ]] && realpath "$directory"
+  done | sort -u
 }
 
 openCodeWorkspace() {
