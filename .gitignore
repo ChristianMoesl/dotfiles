@@ -14,6 +14,8 @@
 .config/nvim
 .config/datadog-helper
 .config/jira-helper
+.config/herd
+.config/mcp
 
 .ssh/known_hosts
 .ssh/ansible-infra.pub

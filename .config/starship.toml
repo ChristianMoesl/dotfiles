@@ -1,3 +1,7 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+
+#
 # add_newline = false
 # A minimal left prompt
 # format = """$directory$character"""
@@ -132,6 +136,20 @@ format = ""
 #
 # [zig]
 # format = 'via [$symbol]($style)'
+
+[kubernetes]
+disabled = true
+
+[aws]
+format = "(on [$symbol($profile )(\\[$duration\\])]($style) )"
+symbol = "\uf0c2 "
+disabled = false
+
+[gcloud]
+disabled = true
+
+[azure]
+disabled = true
 
 [palettes.catppuccin_mocha]
 rosewater = "#f5e0dc"
