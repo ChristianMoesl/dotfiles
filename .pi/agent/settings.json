@@ -1,48 +1,19 @@
 {
-  "lastChangelogVersion": "0.85.1",
+  "lastChangelogVersion": "0.87.1",
   "defaultProvider": "github-copilot",
-  "defaultModel": "gpt-5.6-sol",
-  "defaultThinkingLevel": "medium",
+  "defaultModel": "gpt-6-sol",
+  "defaultThinkingLevel": "high",
   "hideThinkingBlock": true,
   "theme": "dark",
-  "packages": ["../../Workspace/pi-sbx", "npm:pi-mcp-adapter@2.25.0", "npm:pi-subagents"],
-  "enabledModels": [
-    "github-copilot/gpt-5.6-sol",
-    "github-copilot/gpt-5.6-luna",
-    "github-copilot/gpt-6-astra"
+  "packages": [
+    "../../Workspace/pi-sbx",
+    "npm:pi-mcp-adapter@2.25.0",
+    "git:github.com/ChristianMoesl/radar",
+    "npm:@narumitw/pi-usage"
   ],
-  "subagents": {
-    "defaultModel": "github-copilot/gpt-5.6-luna",
-    "defaultThinking": "xhigh",
-    "agentOverrides": {
-      "delegate": {
-        "model": "github-copilot/gpt-5.6-luna",
-        "thinking": "xhigh"
-      },
-      "evidence-auditor": {
-        "model": "github-copilot/gpt-5.6-luna",
-        "thinking": "xhigh"
-      },
-      "oracle": {
-        "model": "github-copilot/gpt-5.6-luna",
-        "thinking": "xhigh"
-      },
-      "researcher": {
-        "model": "github-copilot/gpt-5.6-luna",
-        "thinking": "xhigh"
-      },
-      "reviewer": {
-        "model": "github-copilot/gpt-5.6-luna",
-        "thinking": "xhigh"
-      },
-      "scout": {
-        "model": "github-copilot/gpt-5.6-luna",
-        "thinking": "xhigh"
-      },
-      "worker": {
-        "model": "github-copilot/gpt-5.6-luna",
-        "thinking": "xhigh"
-      }
-    }
-  }
+  "enabledModels": [
+    "github-copilot/gpt-6-luna",
+    "github-copilot/gpt-6-sol",
+    "github-copilot/gpt-6-astra"
+  ]
 }
