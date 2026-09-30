@@ -4,7 +4,7 @@
   "defaultModel": "gpt-6-sol",
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": true,
-  "theme": "dark",
+  "theme": "catppuccin-mocha",
   "packages": [
     "../../Workspace/pi-sbx",
     "npm:pi-mcp-adapter@2.25.0",
