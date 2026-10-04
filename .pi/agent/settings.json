@@ -1,19 +1,18 @@
 {
-  "lastChangelogVersion": "0.87.1",
+  "lastChangelogVersion": "0.99.2",
   "defaultProvider": "github-copilot",
-  "defaultModel": "gpt-6-sol",
-  "defaultThinkingLevel": "high",
+  "defaultModel": "gpt-6.1-sol",
+  "defaultThinkingLevel": "xhigh",
   "hideThinkingBlock": true,
   "theme": "catppuccin-mocha",
   "packages": [
-    "../../Workspace/pi-sbx",
-    "npm:pi-mcp-adapter@2.25.0",
-    "git:github.com/ChristianMoesl/radar",
-    "npm:@narumitw/pi-usage"
+    "npm:@narumitw/pi-usage",
+    "npm:@christianmoesl/pi-sbx",
+    "npm:@christianmoesl/pi-radar",
+    "npm:@gotgenes/pi-subagents"
   ],
   "enabledModels": [
     "github-copilot/gpt-6-luna",
-    "github-copilot/gpt-6-sol",
-    "github-copilot/gpt-6-astra"
+    "github-copilot/gpt-6.1-sol"
   ]
 }

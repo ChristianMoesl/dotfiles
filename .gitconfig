@@ -63,3 +63,5 @@
 	useHttpPath = true
 [credential "https://code.moesl.net"]
 	provider = generic
+[blame]
+	ignoreRevsFile = :(optional).git-blame-ignore-revs
