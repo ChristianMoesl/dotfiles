@@ -57,7 +57,7 @@
 	helper = 
 	helper = !gh auth git-credential
 [credential]
-	helper = 
+	helper =
 	helper = /usr/local/share/gcm-core/git-credential-manager
 [credential "https://dev.azure.com"]
 	useHttpPath = true
@@ -65,3 +65,7 @@
 	provider = generic
 [blame]
 	ignoreRevsFile = :(optional).git-blame-ignore-revs
+
+# Optional machine-specific overrides; keep this include last.
+[include]
+	path = ~/.gitconfig.local
