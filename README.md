@@ -28,6 +28,20 @@ $ cd dotfiles
 $ stow -t ~ .
 ```
 
+### Pi subagents
+
+`.pi/agent/agents/` contains global replacements for `general-purpose`, `Explore`,
+and `Plan` in `@gotgenes/pi-subagents`. Stow links the directory into
+`~/.pi/agent/agents/`. The definitions preserve the built-in tools and prompts,
+but pin all three agents to `github-copilot/gpt-6.1-sol` with `locked: [model]`.
+Thinking levels, context inheritance, and foreground/background mode remain
+caller-selectable.
+
+To choose a different model for a role, edit its `model:` frontmatter and run
+`/reload` in Pi. Project-local `.pi/agents/<name>.md` definitions take precedence
+over these global files. These files are complete definitions, not partial
+patches; preserve the read-only tools and prompts when editing Explore or Plan.
+
 ### Git identity and signing
 
 The shared `.gitconfig` defaults to `Christian Mösl`, `christian.git@moesl.net`,
