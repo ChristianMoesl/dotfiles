@@ -29,3 +29,6 @@ Brewfile.lock.json
 !.gnupg/sshcontrol
 
 .config/gh/hosts.yml
+
+# Machine-specific Git overrides (keep .gitconfig.local.example tracked).
+/.gitconfig.local

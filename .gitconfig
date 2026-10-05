@@ -1,15 +1,16 @@
 [user]
 	name = Christian Mösl
 	email = christian.git@moesl.net
-  # signingkey = 30C2947A
-  # 34C020723C521F4A! 
-  # for university: signingkey = 71F860C6B8FA1C91\! 
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOO66/WLghTdWK6FowoemBPuy4PqNXLPqE/Jg01uyLat
 [core]
 	editor = nvim
 [commit]
-  # gpgsign = true
+	gpgsign = true
 [gpg]
-	program = gpg
+	format = ssh
+[gpg "ssh"]
+	# WSL default; see .gitconfig.local.example for other platforms.
+	program = "/mnt/c/Users/chris/AppData/Local/Microsoft/WindowsApps/op-ssh-sign-wsl.exe"
 [diff]
 	tool = vimdiff
 [merge]

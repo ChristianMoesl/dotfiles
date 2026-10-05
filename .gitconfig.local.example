@@ -1,0 +1,49 @@
+# Optional overrides for ~/.gitconfig, which includes ~/.gitconfig.local last.
+# Copy this file to ~/.gitconfig.local only if it does not already exist;
+# otherwise merge the overrides you need into the existing file.
+# All examples are commented out, so copying this file changes nothing.
+#
+# Shared defaults: christian.git@moesl.net, the personal Ed25519 signing key,
+# SSH commit signing through 1Password, and the WSL signer path for user chris.
+# Only public keys belong in Git config; private keys stay in 1Password.
+
+# 1Password signer: uncomment ONE platform block and adjust the installation
+# path/Windows username as needed. Check 1Password's suggested Git config for
+# the exact signer path on your machine.
+
+# Windows / WSL (already the shared default).
+# [gpg "ssh"]
+#     program = "/mnt/c/Users/chris/AppData/Local/Microsoft/WindowsApps/op-ssh-sign-wsl.exe"
+
+# Windows / native Git (forward slashes avoid Git config backslash escaping).
+# [gpg "ssh"]
+#     program = "C:/Users/chris/AppData/Local/Microsoft/WindowsApps/op-ssh-sign.exe"
+
+# macOS.
+# [gpg "ssh"]
+#     program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+
+# Linux (standard 1Password installation).
+# [gpg "ssh"]
+#     program = "/opt/1Password/op-ssh-sign"
+
+# Alternative on Linux/macOS: use OpenSSH through the 1Password SSH agent.
+# Requires the signing key to be available in the agent and SSH_AUTH_SOCK to
+# point to its socket. On Linux: export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
+# [gpg "ssh"]
+#     program = ssh-keygen
+
+# Optional work/machine identity. An SSH key is not tied to an email address.
+# [user]
+#     email = christian.moesl@gofore.com
+#     signingkey = ssh-ed25519 REPLACE_WITH_YOUR_PUBLIC_KEY
+
+# Explicit opt-out on machines where signing is not set up.
+# [commit]
+#     gpgsign = false
+
+# Optional Git Credential Manager override (example: Linux Homebrew).
+# The empty helper clears the helpers inherited from the shared config.
+# [credential]
+#     helper =
+#     helper = /home/linuxbrew/.linuxbrew/bin/git-credential-manager

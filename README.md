@@ -28,6 +28,20 @@ $ cd dotfiles
 $ stow -t ~ .
 ```
 
+### Git identity and signing
+
+`.gitconfig` defaults to `christian.git@moesl.net` and signs commits with the
+personal Ed25519 key in 1Password using its WSL signing program. This is SSH
+signing (`gpg.format = ssh`), not OpenPGP signing.
+
+`~/.gitconfig.local` is included last for machine-specific overrides and is not
+committed. See `.gitconfig.local.example` for WSL, native Windows, macOS, and
+Linux signer paths, plus optional identity and credential-helper overrides.
+Copy the example to `~/.gitconfig.local` if that file does not exist; otherwise
+merge the settings you need. Uncomment only the relevant overrides. On non-WSL
+machines, override the signing program before committing (or explicitly disable
+signing if 1Password is not set up). There is no automatic OS detection.
+
 ### MacOS Setup Guide
 
 1. Map cap lock key to ESC in system settings
