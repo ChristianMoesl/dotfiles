@@ -32,3 +32,6 @@ Brewfile.lock.json
 
 # Machine-specific Git overrides (keep .gitconfig.local.example tracked).
 /.gitconfig.local
+
+# Machine-specific sandbox startup scripts and deployment configuration.
+/.config/sbx/
