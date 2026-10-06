@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.99.2",
+  "lastChangelogVersion": "1.0.4",
   "defaultProvider": "github-copilot",
   "defaultModel": "gpt-6.1-sol",
   "defaultThinkingLevel": "xhigh",
@@ -8,10 +8,12 @@
   "packages": [
     "npm:@christianmoesl/pi-sbx",
     "npm:@christianmoesl/pi-radar",
-    "npm:@gotgenes/pi-subagents"
+    "npm:@gotgenes/pi-subagents",
+    "npm:@pi-plugins/fast-mode"
   ],
   "enabledModels": [
     "github-copilot/gpt-6-luna",
     "github-copilot/gpt-6.1-sol"
-  ]
+  ],
+  "deviceId": "7d69391e-b244-4ae0-ae57-3dead55b276a"
 }
