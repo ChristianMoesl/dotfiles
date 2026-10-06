@@ -6,7 +6,6 @@
   "hideThinkingBlock": true,
   "theme": "catppuccin-mocha",
   "packages": [
-    "npm:@narumitw/pi-usage",
     "npm:@christianmoesl/pi-sbx",
     "npm:@christianmoesl/pi-radar",
     "npm:@gotgenes/pi-subagents"
