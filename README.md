@@ -76,28 +76,35 @@ On this Mac, merge the following into `~/.gitconfig.local`:
 The name, `gpg.format = ssh`, and `commit.gpgsign = true` remain inherited from
 the shared config.
 
-Add the socket setting to the machine-local `~/.zshrc.local`, not to shared
-shell configuration. The shared `.zshrc` already loads this file:
+Add the socket setting to the machine-local `~/.zshenv.local`, not to shared
+shell configuration. The shared `.zshenv` loads this file for both interactive
+and non-interactive zsh shells. Remove any old `SSH_AUTH_SOCK` export from
+`~/.zshrc.local` so it cannot override this guard:
 
-```bash
-export SSH_AUTH_SOCK="$HOME/.bitwarden-ssh-agent.sock"
+```zsh
+# Use Bitwarden locally without overriding SSH-forwarded agents.
+if [[ -z "$SSH_CONNECTION" && -S "$HOME/.bitwarden-ssh-agent.sock" ]]; then
+  export SSH_AUTH_SOCK="$HOME/.bitwarden-ssh-agent.sock"
+fi
 ```
 
-This is the socket for the Bitwarden desktop app installed from the `.dmg`.
-For the App Store version, use
+The guard preserves the inherited agent in SSH sessions and when the Bitwarden
+socket is absent. This is the socket for the Bitwarden desktop app installed
+from the `.dmg`. For the App Store version, use
 `$HOME/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock`
-instead.
+in both places instead.
 
-Open a new terminal or run `source ~/.zshrc.local` in the existing one, then
+Open a new terminal or run `source ~/.zshenv.local` in the existing one, then
 verify agent access:
 
 ```bash
 ssh-add -l
 ```
 
-Restart Pi after updating the current terminal so it inherits the new socket.
-An already-running Pi process does not pick up changes to its parent shell's
-environment.
+Restart Pi from that terminal so it inherits the new socket. Bash subprocesses
+do not read `.zshenv`; they inherit the environment of the process launching
+them. An already-running Pi process does not pick up changes to its parent
+shell's environment, and GUI launchers may need separate environment setup.
 
 #### Personal repository overrides
 

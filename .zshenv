@@ -117,3 +117,6 @@ uuid() {
 
 #Auto-Complete function for AWSume
 fpath=(~/.awsume/zsh-autocomplete/ $fpath)
+
+# Machine-specific environment, including non-interactive shells; not synced.
+[[ -r "$HOME/.zshenv.local" ]] && source "$HOME/.zshenv.local"
