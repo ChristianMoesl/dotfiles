@@ -14,8 +14,10 @@ export VISUAL="$EDITOR"
 #AWSume alias to source the AWSume script
 alias awsume="source \$(pyenv which awsume)"
 
+# Explicit function declarations allow re-sourcing after shell aliases are loaded.
+
 # rebase all changes from latest origin/HEAD commit onwards interactively
-grchanges() {
+function grchanges() {
 	local current_branch="$(git branch --show-current)"
 	local base_branch="$(git rev-parse --abbrev-ref origin/HEAD)"
 	local head_commit="$(git merge-base $current_branch $base_branch)"
@@ -23,70 +25,70 @@ grchanges() {
 }
 
 # switch to default branch, clear garbage branches and pull from remote
-greset() {
+function greset() {
 	git switch "$(gh default-branch show --name-only)"
 	gbgc
 	git pull
 }
 
 # push git branch to github and create draft pull request
-gprc() {
+function gprc() {
 	git push -u
 	gh pr create --draft --fill
 }
 
 # push git branch to github and create ready pull request
-gprr() {
+function gprr() {
 	git push -u
 	gh pr create --fill
 }
 
 # add all changes and commit them
-gac() {
+function gac() {
 	git add --all
 	git commit -v
 }
 
 # add all changes, commit them and push
-gacp() {
+function gacp() {
 	gac
 	git push -u
 }
 
 # add all changes, create a fixup commit and push
-gafp() {
+function gafp() {
 	git add --all
 	git fixup
 	git push -u
 }
 
 # mark github pull request as ready and add everyone as assignee
-gprmr() {
+function gprmr() {
 	gh pr ready
 }
 
-gpma() {
+function gpma() {
   PR_NUM=$(gh pr view --json number -q .number) && \
   gh pr merge --auto --squash \
     --subject "$(gh pr view --json title -q .title) (#$PR_NUM)" \
     --body "$(gh pr view --json body -q .body)"
 }
 
-gla() {
+function gla() {
   gh pr edit --add-label "aa:async review"
 }
-gln() {
+function gln() {
   gh pr edit --add-label "aa:needs no review"
 }
-gle() {
+function gle() {
   gh pr edit --add-label "aa:emergency fix"
 }
-glp() {
+function glp() {
   gh pr edit --add-label "aa:preapproved"
 }
 
 # garbage collect merged branches
-gbgc() {
+function gbgc() {
 	local default_branch=$(gh default-branch show --name-only)
 	git switch $default_branch
 	echo "remove merged branches"
@@ -97,7 +99,7 @@ gbgc() {
 }
 
 # garbage collect merged/local branches without remote
-greset() {
+function greset() {
 	local default_branch=$(gh default-branch show --name-only)
 	git switch $default_branch
 	echo "remove merged branches"
@@ -111,7 +113,7 @@ greset() {
 	git pull
 }
 
-uuid() {
+function uuid() {
 	uuidgen | tr '[:upper:]' '[:lower:]'
 }
 
