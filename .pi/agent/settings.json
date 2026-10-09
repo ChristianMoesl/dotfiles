@@ -2,7 +2,7 @@
   "lastChangelogVersion": "1.0.4",
   "defaultProvider": "github-copilot",
   "defaultModel": "gpt-6.1-sol",
-  "defaultThinkingLevel": "xhigh",
+  "defaultThinkingLevel": "high",
   "hideThinkingBlock": true,
   "theme": "catppuccin-mocha",
   "packages": [

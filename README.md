@@ -30,17 +30,55 @@ $ stow -t ~ .
 
 ### Pi subagents
 
-`.pi/agent/agents/` contains global replacements for `general-purpose`, `Explore`,
-and `Plan` in `@gotgenes/pi-subagents`. Stow links the directory into
-`~/.pi/agent/agents/`. The definitions preserve the built-in tools and prompts,
-but pin all three agents to `github-copilot/gpt-6.1-sol` with `locked: [model]`.
-Thinking levels, context inheritance, and foreground/background mode remain
-caller-selectable.
+`.pi/agent/agents/` defines seven global roles for `@gotgenes/pi-subagents`.
+Stow links the directory into `~/.pi/agent/agents/`.
 
-To choose a different model for a role, edit its `model:` frontmatter and run
-`/reload` in Pi. Project-local `.pi/agents/<name>.md` definitions take precedence
-over these global files. These files are complete definitions, not partial
-patches; preserve the read-only tools and prompts when editing Explore or Plan.
+The setup is cost-conscious rather than a mandatory multi-agent pipeline:
+Sol supervises, Haiku handles routine delegated work, Sol specialists handle
+ambiguity or high risk, and Opus handles visual-design deliverables. The parent
+startup default is `github-copilot/gpt-6.1-sol` with `high` thinking.
+
+All models below use the `github-copilot/` provider prefix.
+
+| Agent | Model | Thinking | Turns | Use |
+| --- | --- | --- | --- | --- |
+| `Explore` | `claude-haiku-5.5` | low | 16 | Bounded discovery with file/line evidence; no edits |
+| `worker-fast` | `claude-haiku-5.5` | low | 20 | Default routine implementer, including focused tests |
+| `Verify` | `claude-haiku-5.5` | low | 16 | Separate checks when useful; no source edits or fixes |
+| `Plan` | `gpt-6.1-sol` | high | 24 | Material design decisions; no edits |
+| `general-purpose` | `gpt-6.1-sol` | high | 40 | Difficult debugging, high-risk work, or Haiku escalation |
+| `Review` | `gpt-6.1-sol` | high | 24 | Independent, evidence-backed review; no edits or submissions |
+| `Visual` | `claude-opus-5.5` | high | 32 | HTML presentations, GUI concepts, and visual aids |
+
+Keep the automatic routing policy in the personal `~/.pi/agent/AGENTS.md`
+(managed separately from this repository). Handle tiny tasks directly, default
+routine delegation to Haiku, and use planning, separate verification, and review
+only when they add value. Escalate unresolved technical blockers with the evidence
+already collected, not repeated blind retries. Missing user decisions or
+permissions require clarification, not a stronger model. Do not assign overlapping
+edits or run checks while another worker changes the same files.
+
+All roles default to fresh context and lock only their model. Supply a compact
+task brief with scope, constraints, acceptance criteria, and relevant evidence.
+Thinking levels, turn ceilings, context inheritance, and foreground/background
+mode remain caller-selectable. Turn ceilings are not hard token or cost budgets.
+To escalate to another model, dispatch the appropriate role; overriding a locked
+model in a tool call is ignored.
+
+All roles allow `codemode` for batching independent tool calls. Workers can edit;
+Explore, Plan, and Review retain Bash for Git inspection, so their read-only
+behavior is instruction-based, not an enforced shell sandbox. Verify can run
+tests/builds that generate artifacts and reports those changes without fixing or
+cleaning them. Visual uses the existing `playwright-cli` skill for preview,
+reports verification gaps, and follows the personal screenshot-location policy.
+
+After changing definitions or personal instructions, run `/reload` in Pi.
+The parent thinking default applies at startup; use `/thinking` to change the
+current session (resumed sessions retain their recorded selection). To change a
+role's model, edit its `model:` frontmatter. The model must be available to Pi;
+the parent's `enabledModels` cycling list does not restrict these subagents.
+Project-local `.pi/agents/<name>.md` definitions take precedence over the global
+files. Agent files are complete definitions, not partial patches.
 
 ### Git identity and signing
 
