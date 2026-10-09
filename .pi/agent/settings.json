@@ -15,5 +15,12 @@
     "github-copilot/gpt-6-luna",
     "github-copilot/gpt-6.1-sol"
   ],
-  "deviceId": "7d69391e-b244-4ae0-ae57-3dead55b276a"
+  "deviceId": "7d69391e-b244-4ae0-ae57-3dead55b276a",
+  "compaction": {
+    "modelOverrides": {
+      "github-copilot/claude-haiku-5.5": {
+        "reserveTokens": 900000
+      }
+    }
+  }
 }
