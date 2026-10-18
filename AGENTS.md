@@ -1,3 +1,3 @@
 # Repository instructions
 
-- Do not create pull requests for this repository. Commit changes directly on `main`.
+- Always commit completed work directly on `main` and push it to `origin/main`. Do not create pull requests or leave completed work uncommitted.
