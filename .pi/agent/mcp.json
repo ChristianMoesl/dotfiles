@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "blender": {
+      "command": "~/.local/share/blender-lab-mcp/.venv/bin/python",
+      "args": ["-m", "blmcp", "--transport", "stdio"],
+      "env": {
+        "BLENDER_MCP_HOST": "127.0.0.1",
+        "BLENDER_MCP_PORT": "9876"
+      },
+      "timeout": 300,
+      "exposure": "codemode",
+      "toolExposure": {
+        "execute_blender_code": "direct",
+        "get_blendfile_summary_datablocks": "direct",
+        "get_objects_summary": "direct",
+        "get_screenshot_of_window_as_image": "direct",
+        "*_for_cli": "hidden"
+      },
+      "description": "Inspect and edit the local Windows Blender/Bonsai session through Blender Lab MCP. Blender-side file paths must be Windows paths."
+    }
+  }
+}

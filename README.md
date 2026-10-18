@@ -28,6 +28,74 @@ $ cd dotfiles
 $ stow -t ~ .
 ```
 
+### Pi Blender MCP (WSL to Windows)
+
+`.pi/agent/mcp.json` configures the **official Blender Lab MCP server**, not
+Ahujasid's separate Blender MCP project. The two bridges use different protocols,
+even though both default to port 9876. Install the server from its official source,
+not an unrelated package with the same `blender-mcp` name on PyPI.
+
+The server runs in a dedicated WSL virtual environment, launched by Pi over stdio.
+It connects to the Windows Blender extension at `127.0.0.1:9876` using WSL mirrored
+networking. No HTTP server, Windows firewall changes, or Blender installation in
+WSL are needed for this setup. Keep the bridge on loopback: it can execute Python
+inside Blender and is not an authenticated network service.
+
+Install the server once, using a Python installation with working `venv`/`pip`
+support (the tested WSL installation uses Homebrew Python 3.14):
+
+```bash
+git clone --depth 1 --branch v1.0.3 \
+  https://projects.blender.org/lab/blender_mcp.git \
+  "$HOME/.local/share/blender-lab-mcp"
+python3 -m venv "$HOME/.local/share/blender-lab-mcp/.venv"
+"$HOME/.local/share/blender-lab-mcp/.venv/bin/python" -m pip install \
+  'mcp[cli]==1.30.0' "$HOME/.local/share/blender-lab-mcp/mcp"
+"$HOME/.local/share/blender-lab-mcp/.venv/bin/python" -m pip check
+```
+
+Version `v1.0.3` resolves to commit `2cea8d566dde07fbac28a61d698909d69724e853`.
+The source checkout and virtual environment stay outside this dotfiles repository.
+Do not update them implicitly at Pi startup. Match server and extension versions
+when upgrading, then repeat the connection tests.
+
+Stow links `.pi/agent/mcp.json` into `~/.pi/agent/mcp.json`. If not using Stow, link
+only this file from the root of this repository, **provided the destination does
+not already exist**:
+
+```bash
+mkdir -p "$HOME/.pi/agent"
+ln -s "$PWD/.pi/agent/mcp.json" "$HOME/.pi/agent/mcp.json"
+```
+
+If a configuration already exists, merge the `blender` entry rather than replacing
+other servers or credentials. The shared configuration contains no credentials;
+keep future authenticated server entries machine-local rather than committing them.
+
+In Windows Blender, enable the Blender Lab **MCP** extension and start its bridge.
+Enable **Bonsai** separately and save preferences. Only one Blender instance can
+own this bridge port; multiple instances can connect the agent to the wrong file.
+
+Run `pi mcp list` to check MCP initialization and tool discovery. This does **not**
+verify that Blender is reachable: also ask Pi to read the current scene summary and
+confirm Bonsai/IfcOpenShell are loaded. Run `/reload` in an existing Pi session,
+then `/mcp` to inspect the connection. No separate always-running MCP daemon is
+required; Pi manages the server process.
+
+Four common tools are directly exposed; the remaining interactive tools are
+available through codemode/tool search. `*_for_cli` tools are hidden because they
+expect a Blender executable and filesystem local to the MCP server. This setup
+uses Windows Blender instead. Code executed inside Blender must use Windows paths
+and IFC-aware APIs for Bonsai elements, not arbitrary mesh edits. Python source
+files can remain in WSL and be sent through MCP or staged to Windows when needed.
+
+To disable Blender in other projects or on machines without the server, use
+`/mcp` or a trusted project `.pi/mcp.json` override:
+
+```json
+{"mcpServers": {"blender": {"enabled": false}}}
+```
+
 ### Pi subagents
 
 `.pi/agent/agents/` defines seven global roles for `@gotgenes/pi-subagents`.
