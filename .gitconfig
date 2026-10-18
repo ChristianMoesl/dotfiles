@@ -51,6 +51,10 @@
 	sort = -committerdate
 [advice]
 	skippedCherryPicks = false
+[credential]
+	# Resolve git-credential-manager through Git's executable search path.
+	helper =
+	helper = manager
 [credential "https://github.com"]
 	helper = 
 	helper = !gh auth git-credential
@@ -59,14 +63,11 @@
 	helper = !gh auth git-credential
 [credential "https://code.moesl.net"]
 	provider = generic
+[credential "https://dev.azure.com"]
+	useHttpPath = true
 [blame]
 	ignoreRevsFile = :(optional).git-blame-ignore-revs
 
 # Optional machine-specific overrides; keep this include last.
 [include]
 	path = ~/.gitconfig.local
-[credential]
-	helper = 
-	helper = /usr/local/share/gcm-core/git-credential-manager
-[credential "https://dev.azure.com"]
-	useHttpPath = true

@@ -42,8 +42,18 @@
 # [commit]
 #     gpgsign = false
 
-# Optional Git Credential Manager override (example: Linux Homebrew).
-# The empty helper clears the helpers inherited from the shared config.
+# Git Credential Manager: the shared helper = manager works across OSes when
+# `git credential-manager --version` succeeds. No path override is then needed.
+# Optional absolute path override if GCM is not on Git's executable search path
+# (example: Linux Homebrew; adapt the path for your installation).
+# The empty helper clears ALL matching inherited helpers, including GitHub's gh
+# helper. Omit this override to keep the shared per-host helper choices.
 # [credential]
 #     helper =
 #     helper = /home/linuxbrew/.linuxbrew/bin/git-credential-manager
+
+# Linux only: select a secure credential store after configuring its backend.
+# Use secretservice with a desktop keyring, or gpg with a configured pass store.
+# macOS and Windows use their native credential stores by default.
+# [credential]
+#     credentialStore = secretservice

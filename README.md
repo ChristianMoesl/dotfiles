@@ -80,6 +80,37 @@ the parent's `enabledModels` cycling list does not restrict these subagents.
 Project-local `.pi/agents/<name>.md` definitions take precedence over the global
 files. Agent files are complete definitions, not partial patches.
 
+### Git credentials
+
+The shared `.gitconfig` uses `credential.helper = manager`, not an OS-specific
+installation path. Git resolves `git-credential-manager` through its executable
+search path. Install Git Credential Manager (GCM) on each machine and verify
+it is discoverable from the environment running Git (including GUI clients):
+
+```bash
+git credential-manager --version
+```
+
+This works on Linux, macOS, and Windows without changing the shared config.
+WSL can use a Linux GCM installation, or a machine-local path override pointing
+to Windows GCM. GitHub and Gist retain their more-specific `gh` helpers; install
+GitHub CLI and authenticate with `gh auth login` for those hosts.
+
+`~/.gitconfig.local` is included **last** for installation-specific paths or
+credential-store settings; see `.gitconfig.local.example`. A local helper
+replacement needs an empty `helper =` followed by the desired helper. This
+clears all matching inherited helpers, including GitHub's `gh` helper. Remove
+redundant local helper entries to retain the shared per-host choices.
+
+GCM uses native credential stores on macOS and Windows. On Linux, choose and
+configure a secure backend such as `secretservice` (desktop keyring) or `gpg`
+(`pass`), and set `credential.credentialStore` in the local file. Do not put
+credentials or machine-specific store settings in the shared config.
+
+Avoid running `git credential-manager configure` against the shared config:
+it can append an absolute helper path after the local include. These dotfiles
+already configure the helper; keep machine-specific changes in the local file.
+
 ### Git identity and signing
 
 The shared `.gitconfig` defaults to `Christian Mösl`, `christian.git@moesl.net`,
