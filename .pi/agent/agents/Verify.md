@@ -2,7 +2,7 @@
 description: Haiku execution of specified tests, builds, and checks; exact outcomes and artifacts; no source edits or fixes; use only when separate validation adds value.
 display_name: Verify
 tools: read, bash, grep, find, ls, codemode
-model: github-copilot/claude-haiku-5.5
+model: github-copilot/gpt-6-luna
 thinking: low
 max_turns: 16
 inherit_context: false

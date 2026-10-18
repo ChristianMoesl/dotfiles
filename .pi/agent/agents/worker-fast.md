@@ -2,7 +2,7 @@
 description: Default Haiku implementer for routine, bounded changes with clear acceptance criteria; includes focused tests; escalate ambiguity or high risk.
 display_name: Worker (Haiku)
 tools: read, bash, edit, write, grep, find, ls, codemode
-model: github-copilot/claude-haiku-5.5
+model: github-copilot/gpt-6-luna
 thinking: low
 max_turns: 20
 inherit_context: false

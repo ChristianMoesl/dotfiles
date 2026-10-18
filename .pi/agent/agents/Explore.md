@@ -2,7 +2,7 @@
 description: Fast Haiku code discovery; locate implementations, tests, and patterns without edits.
 display_name: Explore
 tools: read, bash, grep, find, ls, codemode
-model: github-copilot/claude-haiku-5.5
+model: github-copilot/gpt-6-luna
 thinking: low
 max_turns: 16
 inherit_context: false

@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "1.0.4",
+  "lastChangelogVersion": "1.3.0",
   "defaultProvider": "github-copilot",
   "defaultModel": "gpt-6.1-sol",
   "defaultThinkingLevel": "high",
@@ -9,11 +9,15 @@
     "npm:@christianmoesl/pi-sbx",
     "npm:@christianmoesl/pi-radar",
     "npm:@gotgenes/pi-subagents",
-    "npm:@pi-plugins/fast-mode"
+    "npm:@pi-plugins/fast-mode",
+    "npm:pi-usage-meters",
+    "npm:pi-usage-hud",
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:@juicesharp/rpiv-btw"
   ],
   "enabledModels": [
-    "github-copilot/gpt-6-luna",
-    "github-copilot/gpt-6.1-sol"
+    "github-copilot/gpt-6.1-sol",
+    "github-copilot/gpt-6-luna"
   ],
   "deviceId": "7d69391e-b244-4ae0-ae57-3dead55b276a",
   "compaction": {
